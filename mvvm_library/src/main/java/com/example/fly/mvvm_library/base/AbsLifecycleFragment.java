@@ -29,7 +29,7 @@ public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseF
 
     /**
      * create ViewModelProviders
-     *
+     * 创建ViewModel的提供者
      * @return ViewModel
      */
     protected <T extends ViewModel> T VMProviders(BaseFragment fragment, @NonNull Class<T> modelClass) {
@@ -70,7 +70,7 @@ public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseF
         loadManager.showStateView(LoadingState.class);
     }
 
-
+    // lifecycle 中 liveData的监听者
     protected Observer observer = new Observer<String>() {
         @Override
         public void onChanged(@Nullable String state) {

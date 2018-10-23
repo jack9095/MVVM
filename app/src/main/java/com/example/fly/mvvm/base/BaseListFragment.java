@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.fly.mvvm.R;
-import com.example.fly.mvvm.core.bean.banner.BannerListVo;
+import com.example.fly.mvvm.core.bean.pojo.banner.BannerListVo;
 import com.example.fly.mvvm_library.base.AbsLifecycleFragment;
 import com.example.fly.mvvm_library.base.AbsViewModel;
 import com.trecyclerview.TRecyclerView;

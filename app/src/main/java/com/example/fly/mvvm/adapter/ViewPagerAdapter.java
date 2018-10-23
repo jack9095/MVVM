@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+/**
+ * ViewPager嵌套fragment的适配器
+ */
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<BaseFragment> fragments;

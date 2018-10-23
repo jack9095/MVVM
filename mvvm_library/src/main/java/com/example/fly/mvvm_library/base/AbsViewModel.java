@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import com.example.fly.mvvm_library.util.TUtil;
 
 /**
- * jetPack新组建使用 ViewModel  LiveData
+ * jetPack新组件使用 ViewModel  LiveData
  * @param <T>
  */
 public class AbsViewModel<T extends AbsRepository> extends AndroidViewModel {

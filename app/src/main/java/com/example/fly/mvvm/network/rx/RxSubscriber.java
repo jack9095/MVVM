@@ -1,21 +1,20 @@
 package com.example.fly.mvvm.network.rx;
 
-
 import com.example.fly.mvvm.app.App;
 import com.example.fly.mvvm.network.ServerException;
 import com.example.fly.mvvm.utils.NetworkUtils;
 import com.google.gson.JsonParseException;
-
 import org.json.JSONException;
-
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 
-
+/**
+ * 网络请求的订阅
+ * @param <T>
+ */
 public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onStart() {
@@ -36,7 +35,6 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onCompleted() {
-
 
     }
 

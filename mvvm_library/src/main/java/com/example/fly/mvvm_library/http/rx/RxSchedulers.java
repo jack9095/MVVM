@@ -5,7 +5,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-
+/**
+ * Rx的观察者调度类
+ */
 public class RxSchedulers {
     public static <T> Observable.Transformer<T, T> io_main() {
         return new Observable.Transformer<T, T>() {

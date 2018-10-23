@@ -3,17 +3,17 @@ package com.example.fly.mvvm.callback;
 public interface CallBack<T> {
 
     /**
-     * no network
+     * no network 没网络
      */
     void onNoNetWork();
 
     /**
-     * @param t
+     * @param t  成功
      */
     void onNext(T t);
 
     /**
-     * @param e
+     * @param e 失败
      */
     void onError(String e);
 }

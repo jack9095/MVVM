@@ -1,25 +1,24 @@
 package com.example.fly.mvvm_library.http;
 
 
-
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 import static com.example.fly.mvvm_library.util.TUtil.checkNotNull;
 
 
-
+/**
+ * 网络请求帮助类
+ */
 public class HttpHelper {
 
     private static volatile HttpHelper mHttpHelper = null;
 
-    private static OkHttpClient mOkHttpClient;
+    private static OkHttpClient mOkHttpClient;  // okhttp的委托
 
     private static Retrofit mRetrofit;
 
@@ -65,8 +64,13 @@ public class HttpHelper {
          * @return Builder
          */
         public Builder initOkHttp() {
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLogger());
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLogger()); // 初始化日志拦截器
+            /**
+             * BASEIC:请求/响应行
+             * HEADER:请求/响应行 + 头
+             * BODY:请求/响应航 + 头 + 体
+             */
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);  // 蛇之日止的打印级别
             if (mBuilder == null) {
                 synchronized (HttpHelper.class) {
                     if (mBuilder == null) {

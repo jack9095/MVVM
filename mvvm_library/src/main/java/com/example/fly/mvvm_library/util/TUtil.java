@@ -36,6 +36,12 @@ public class TUtil {
 
     }
 
+    /**
+     * 检查引用是否为空
+     * @param reference
+     * @param <T>
+     * @return
+     */
     public static @NonNull <T> T checkNotNull(final T reference) {
         if (reference == null) {
             throw new NullPointerException();

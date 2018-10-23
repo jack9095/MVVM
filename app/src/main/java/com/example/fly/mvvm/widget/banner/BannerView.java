@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.fly.mvvm.R;
-import com.example.fly.mvvm.core.bean.banner.BannerVo;
+import com.example.fly.mvvm.core.bean.pojo.banner.BannerVo;
 import com.example.fly.mvvm.utils.DisplayUtil;
 
 import java.util.ArrayList;

@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.fly.mvvm.R;
-import com.example.fly.mvvm.core.bean.banner.BannerListVo;
+import com.example.fly.mvvm.core.bean.pojo.banner.BannerListVo;
 import com.trecyclerview.holder.AbsViewHolder;
 import com.trecyclerview.holder.BaseHolder;
 

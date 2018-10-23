@@ -1,17 +1,12 @@
 package com.example.fly.mvvm.event;
 
-
 import android.arch.lifecycle.MutableLiveData;
-
 import com.example.fly.mvvm.utils.Preconditions;
-
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * 事件总线
- *
  */
 public class LiveBus {
 

@@ -1,11 +1,11 @@
-package com.example.fly.mvvm.widget;
+package com.example.fly.mvvm.core.ui.view;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
-
-
+/**
+ */
 public class CustomHeightImageView extends AppCompatImageView {
 
     private double mHeightRatio;

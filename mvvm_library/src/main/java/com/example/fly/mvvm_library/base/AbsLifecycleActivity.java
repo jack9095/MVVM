@@ -61,7 +61,7 @@ public abstract class AbsLifecycleActivity<T extends AbsViewModel> extends BaseA
 
 
     /**
-     * 状态的观察者       加载失败   加载中   加载成功
+     * lifecycle 中 liveData的监听者(观察者)       加载失败   加载中   加载成功
      */
     protected Observer observer = new Observer<String>() {
         @Override

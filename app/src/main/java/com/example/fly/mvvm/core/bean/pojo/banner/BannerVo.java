@@ -1,7 +1,8 @@
-package com.example.fly.mvvm.core.bean.banner;
+package com.example.fly.mvvm.core.bean.pojo.banner;
 
-
-
+/**
+ *
+ */
 public class BannerVo {
     public String imgUrl;
     public String advid;

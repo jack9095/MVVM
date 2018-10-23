@@ -6,7 +6,9 @@ import com.example.fly.mvvm_library.util.Logger;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 
-
+/**
+ * 网络请求日志类
+ */
 public class HttpLogger implements HttpLoggingInterceptor.Logger {
     private static String TAG = HttpLogger.class.getSimpleName();
 

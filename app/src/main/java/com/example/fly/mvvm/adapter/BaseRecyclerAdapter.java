@@ -6,19 +6,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.fly.mvvm.base.BaseViewHolder;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
-
+/**
+ * 只适合单布局
+ * @param <T>
+ */
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;  // 点击事件
 
-    private OnItemLongClickListener onItemLongClickListener;
+    private OnItemLongClickListener onItemLongClickListener;  // 长按事件
 
     private List<T> dataList;
 

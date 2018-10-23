@@ -1,11 +1,11 @@
-package com.example.fly.mvvm.widget;
+package com.example.fly.mvvm.core.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-
-
+/**
+ */
 public class CustomHeightRelativeLayout extends RelativeLayout {
 
     private double mHeightRatio;
