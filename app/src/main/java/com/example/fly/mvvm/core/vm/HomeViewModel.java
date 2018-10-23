@@ -17,9 +17,9 @@ import com.example.fly.mvvm_library.stateview.StateConstants;
  */
 public class HomeViewModel extends AbsViewModel<HomeRepository> {
 
-    private MutableLiveData<HomeListVo> homeData;
+    private MutableLiveData<HomeListVo> homeData;  // 列表
 
-    private MutableLiveData<BannerListVo> bannerData;
+    private MutableLiveData<BannerListVo> bannerData;  // 轮播
 
     private MutableLiveData<HomeMergeVo> mergeData;
 
