@@ -1,6 +1,8 @@
 package com.example.fly.mvvm.core.ui.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
@@ -30,6 +32,12 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> {
 
     @Override
     protected void dataObserver() {
+        mViewModel.getMergeData().observe(this, new Observer<HomeMergeVo>() {
+            @Override
+            public void onChanged(@Nullable HomeMergeVo homeMergeVo) {
+
+            }
+        });
         mViewModel.getMergeData().observe(this, homeMergeVo -> {
             if (homeMergeVo != null) {
                 addItems(homeMergeVo);

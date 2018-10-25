@@ -51,10 +51,12 @@ public class HomeViewModel extends AbsViewModel<HomeRepository> {
         return mergeData;
     }
 
+    // 加载首页列表数据的网络请求
     private void loadHomeList(String id) {
         mRepository.loadHomeData(id);
     }
 
+    // banner的网络请求
     private void getBannerData(String posType,
                                String fCatalogId,
                                String sCatalogId,
@@ -67,6 +69,8 @@ public class HomeViewModel extends AbsViewModel<HomeRepository> {
     public void getRequestMerge() {
         getBannerData("1", "4", "109", "", null);
         loadHomeList("0");
+
+        // 首页合并的网络请求
         mRepository.loadRequestMerge(new CallBack<Object>() {
             @Override
             public void onNoNetWork() {
