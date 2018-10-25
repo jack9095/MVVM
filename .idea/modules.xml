@@ -6,6 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bottomnavigationbar/bottomnavigationbar.iml" filepath="$PROJECT_DIR$/bottomnavigationbar/bottomnavigationbar.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library_loadState/library_loadState.iml" filepath="$PROJECT_DIR$/library_loadState/library_loadState.iml" />
+      <module fileurl="file://$PROJECT_DIR$/loadstate/loadstate.iml" filepath="$PROJECT_DIR$/loadstate/loadstate.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvvm_library/mvvm_library.iml" filepath="$PROJECT_DIR$/mvvm_library/mvvm_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/tablayout/tablayout.iml" filepath="$PROJECT_DIR$/tablayout/tablayout.iml" />
     </modules>

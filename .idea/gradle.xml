@@ -12,11 +12,12 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bottomnavigationbar" />
             <option value="$PROJECT_DIR$/library" />
+            <option value="$PROJECT_DIR$/library_loadState" />
+            <option value="$PROJECT_DIR$/loadstate" />
             <option value="$PROJECT_DIR$/mvvm_library" />
             <option value="$PROJECT_DIR$/tablayout" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
