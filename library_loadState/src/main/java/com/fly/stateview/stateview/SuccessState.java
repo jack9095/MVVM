@@ -1,11 +1,10 @@
-package com.tqzhang.stateview.stateview;
+package com.fly.stateview.stateview;
 
 import android.content.Context;
 import android.view.View;
 
 
 /**
- * @author zhangtianqiu
  */
 public class SuccessState extends BaseStateControl {
 
@@ -19,7 +18,7 @@ public class SuccessState extends BaseStateControl {
     }
 
     public void hide() {
-        getRootView.setVisibility(View.INVISIBLE);
+        getRootView().setVisibility(View.INVISIBLE);
     }
 
     public void show() {

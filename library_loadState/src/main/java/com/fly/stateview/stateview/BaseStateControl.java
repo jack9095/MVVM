@@ -1,4 +1,4 @@
-package com.tqzhang.stateview.stateview;
+package com.fly.stateview.stateview;
 
 import android.content.Context;
 import android.view.View;
@@ -11,7 +11,6 @@ import java.io.Serializable;
 
 
 /**
- * @author zhangtianqiu
  */
 public abstract class BaseStateControl implements Serializable {
     private View rootView;

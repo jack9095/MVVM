@@ -1,16 +1,15 @@
-package com.tqzhang.stateview.core;
+package com.fly.stateview.core;
 
 import android.support.annotation.NonNull;
 
 
-import com.tqzhang.stateview.stateview.BaseStateControl;
+import com.fly.stateview.stateview.BaseStateControl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * @author zhangtianqiu
  */
 public class LoadState {
 
@@ -80,7 +79,6 @@ public class LoadState {
         public void build() {
             newInstance().setBuilder(this);
         }
-
 
     }
 }

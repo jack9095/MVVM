@@ -1,4 +1,4 @@
-package com.tqzhang.stateview.util;
+package com.fly.stateview.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tqzhang.stateview.core.LoadManager;
+import com.fly.stateview.core.LoadManager;
 
 
 public class LoadUtil {

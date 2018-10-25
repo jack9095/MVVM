@@ -1,18 +1,17 @@
-package com.tqzhang.stateview.core;
+package com.fly.stateview.core;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.tqzhang.stateview.stateview.BaseStateControl;
-import com.tqzhang.stateview.stateview.SuccessState;
-import com.tqzhang.stateview.util.LoadUtil;
+import com.fly.stateview.stateview.BaseStateControl;
+import com.fly.stateview.stateview.SuccessState;
+import com.fly.stateview.util.LoadUtil;
 
 import java.util.List;
 
 /**
- * @author zhangtianqiu
  */
 public class LoadManager {
 

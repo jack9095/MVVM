@@ -1,4 +1,4 @@
-package com.tqzhang.stateview.core;
+package com.fly.stateview.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,16 +6,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 
-import com.tqzhang.stateview.stateview.BaseStateControl;
-import com.tqzhang.stateview.stateview.SuccessState;
-import com.tqzhang.stateview.util.LoadUtil;
+import com.fly.stateview.stateview.BaseStateControl;
+import com.fly.stateview.stateview.SuccessState;
+import com.fly.stateview.util.LoadUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 /**
- * @author zhangtianqiu
  */
 public class LoadLayout extends FrameLayout {
     private Map<Class<? extends BaseStateControl>, BaseStateControl> stateViews = new HashMap<>();
@@ -111,8 +110,7 @@ public class LoadLayout extends FrameLayout {
     }
     private void checkStateViewExist(Class<? extends BaseStateControl> stateView) {
         if (!stateViews.containsKey(stateView)) {
-            throw new IllegalArgumentException(String.format("The BaseStateControl (%s) is nonexistent.", stateView
-                    .getSimpleName()));
+            throw new IllegalArgumentException(String.format("The BaseStateControl (%s) is nonexistent.", stateView.getSimpleName()));
         }
     }
 }
