@@ -27,7 +27,6 @@ import static com.trecyclerview.view.LoadingMoreFooter.STATE_NOMORE;
 
 
 /**
- * @author：tqzhang on 18/6/22 16:03
  */
 public class TRecyclerView extends RecyclerView {
     private MultiTypeAdapter mMultiTypeAdapter;

@@ -28,7 +28,6 @@ import static com.trecyclerview.view.LoadingMoreFooter.STATE_LOADING;
 import static com.trecyclerview.view.LoadingMoreFooter.STATE_NOMORE;
 
 /**
- * @author：tqzhang on 18/6/22 16:03
  */
 public class SwipeRecyclerView extends RecyclerView {
 
@@ -51,6 +50,7 @@ public class SwipeRecyclerView extends RecyclerView {
     private OnRefreshListener mOnRefreshListener;
 
     private OnTScrollListener mOnScrollListener;
+
 
     private OnScrollStateListener mOnScrollStateListener;
 

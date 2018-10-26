@@ -1,1 +1,1 @@
-include ':app', ':bottomnavigationbar', ':tablayout', ':library', ':mvvm_library', ':loadstate', ':library_loadState', ':library_recyclerViewRefresh'
+include ':app', ':bottomnavigationbar', ':tablayout', ':library', ':mvvm_library', ':loadstate', ':library_loadState', ':library_recyclerViewRefresh', ':recyclerviewrefresh'
