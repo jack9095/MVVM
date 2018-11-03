@@ -41,9 +41,9 @@ public class LinearLayoutActivity extends AppCompatActivity implements OnItemCli
         fRecyclerView = findViewById(R.id.recycler_view);
         items = new Items();
         banner banner = new banner(LinearLayoutActivity.this);
-        banner.setOnItemClickListener(this);
+//        banner.setOnItemClickListener(this);
         ItemType itemType = new ItemType(LinearLayoutActivity.this);
-        itemType.setOnItemClickListener(this);
+//        itemType.setOnItemClickListener(this);
         adapter = new MultiTypeAdapter.Builder()
 //                .bind(HeaderVo.class, new HeaderViewHolder(LinearLayoutActivity.this, LayoutInflater.from(this).inflate(R.layout.custom_header_view,null)))
                 .bind(HeaderVo.class, new HeaderViewHolder(LinearLayoutActivity.this, new RefreshHeader(this), new RefreshHeader(this).getOnTouchMoveListener()))
@@ -51,6 +51,8 @@ public class LinearLayoutActivity extends AppCompatActivity implements OnItemCli
                 .bind(ItemVo.class, itemType)
                 .bind(FootVo.class, new FootViewHolder(LinearLayoutActivity.this, ProgressStyle.SysProgress))
                 .build();
+
+        adapter.setOnItemClickListener(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(LinearLayoutActivity.this);
         fRecyclerView.setAdapter(adapter);
