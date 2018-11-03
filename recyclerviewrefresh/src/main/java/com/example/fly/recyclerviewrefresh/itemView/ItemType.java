@@ -31,7 +31,13 @@ public class ItemType extends AbsViewHolder<ItemVo, ItemType.ViewHolder> {
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull ItemVo item) {
+        holder.textView.setText(item.type);
+        holder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
 
     static class ViewHolder extends BaseHolder {
@@ -39,12 +45,7 @@ public class ItemType extends AbsViewHolder<ItemVo, ItemType.ViewHolder> {
         ViewHolder(@NonNull final View itemView, final OnItemClickListener mOnItemClickListener) {
             super(itemView);
             textView = itemView.findViewById(R.id.item_text);
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

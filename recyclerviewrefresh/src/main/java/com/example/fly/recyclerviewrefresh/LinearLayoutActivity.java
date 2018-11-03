@@ -46,7 +46,7 @@ public class LinearLayoutActivity extends AppCompatActivity implements OnItemCli
                 .bind(HeaderVo.class, new HeaderViewHolder(LinearLayoutActivity.this, new RefreshHeader(this), new RefreshHeader(this).getOnTouchMoveListener()))
                 .bind(BannerVo.class, new banner(LinearLayoutActivity.this))
                 .bind(ItemVo.class, itemType)
-                .bind(FootVo.class, new FootViewHolder(LinearLayoutActivity.this, ProgressStyle.Pacman))
+                .bind(FootVo.class, new FootViewHolder(LinearLayoutActivity.this, ProgressStyle.SysProgress))
                 .build();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(LinearLayoutActivity.this);
@@ -61,35 +61,41 @@ public class LinearLayoutActivity extends AppCompatActivity implements OnItemCli
         fRecyclerView.addOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
+                fRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         items.clear();
                         items.add(new BannerVo());
+                        ItemVo itemVo;
                         for (int i = 0; i < 10; i++) {
-                            items.add(new ItemVo());
+                            itemVo = new ItemVo();
+                            itemVo.type = "fly " + i;
+                            items.add(itemVo);
                         }
                         fRecyclerView.refreshComplete(items, false);
                     }
 
-                }, 5000);
+                }, 2000);
 
             }
 
             @Override
             public void onLoadMore() {
                 final Items l = new Items();
-                new Handler().postDelayed(new Runnable() {
+                fRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        ItemVo itemVo;
                         for (int i = 0; i < 10; i++) {
-                            l.add(new ItemVo());
+                            itemVo = new ItemVo();
+                            itemVo.type = "fei " + i;
+                            l.add(itemVo);
                         }
                         items.addAll(l);
                         fRecyclerView.loadMoreComplete(l, false);
 
                         //数据返回是空的  没有更多
-                         fRecyclerView.loadMoreComplete(null, false);
+//                         fRecyclerView.loadMoreComplete(null, false);
                         //
 //                        tRecyclerView.setNoMore(l);
                     }
