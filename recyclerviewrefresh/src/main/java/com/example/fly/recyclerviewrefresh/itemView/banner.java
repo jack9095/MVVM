@@ -11,6 +11,7 @@ import com.example.fly.recyclerviewrefresh.R;
 import com.example.fly.recyclerviewrefresh.pojo.BannerVo;
 import com.fly.holder.AbsViewHolder;
 import com.fly.holder.BaseHolder;
+import com.fly.listener.OnItemClickListener;
 
 /**
  */
@@ -26,7 +27,7 @@ public class banner extends AbsViewHolder<BannerVo, banner.ViewHolder> {
 
     @Override
     public ViewHolder createViewHolder(View view) {
-        return new ViewHolder(view);
+        return new ViewHolder(view,mOnItemClickListener);
     }
 
     @Override
@@ -40,9 +41,18 @@ public class banner extends AbsViewHolder<BannerVo, banner.ViewHolder> {
     static class ViewHolder extends BaseHolder {
 
         private RelativeLayout mBannerView;
-        ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull final View itemView, final OnItemClickListener onItemClickListener) {
             super(itemView);
             mBannerView=getViewById(R.id.rl_root_view);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null!=onItemClickListener){
+                        onItemClickListener.onItemClick(v,getAdapterPosition(),itemView.getTag());
+                    }
+
+                }
+            });
         }
 
     }

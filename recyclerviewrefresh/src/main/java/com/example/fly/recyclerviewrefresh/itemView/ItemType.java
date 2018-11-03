@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fly.recyclerviewrefresh.R;
 import com.example.fly.recyclerviewrefresh.pojo.ItemVo;
@@ -27,6 +28,7 @@ public class ItemType extends AbsViewHolder<ItemVo, ItemType.ViewHolder> {
     @Override
     public ViewHolder createViewHolder(View view) {
         return new ViewHolder(view,mOnItemClickListener);
+//        return new ViewHolder(view);
     }
 
     @Override
@@ -35,10 +37,18 @@ public class ItemType extends AbsViewHolder<ItemVo, ItemType.ViewHolder> {
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Toast.makeText(mContext,"text",Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+//    static class ViewHolder extends BaseHolder {
+//        TextView textView;
+//        ViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            textView = itemView.findViewById(R.id.item_text);
+//        }
+//    }
 
     static class ViewHolder extends BaseHolder {
         TextView textView;
