@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import com.example.fly.recyclerviewrefresh.R;
 import com.example.fly.recyclerviewrefresh.pojo.ItemVo;
-import com.trecyclerview.holder.AbsViewHolder;
-import com.trecyclerview.holder.BaseHolder;
-import com.trecyclerview.listener.OnItemClickListener;
+import com.fly.holder.AbsViewHolder;
+import com.fly.holder.BaseHolder;
 
 import java.util.Random;
 

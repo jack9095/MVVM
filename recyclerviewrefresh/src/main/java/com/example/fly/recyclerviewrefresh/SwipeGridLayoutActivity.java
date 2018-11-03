@@ -11,17 +11,14 @@ import com.example.fly.recyclerviewrefresh.itemView.ItemType;
 import com.example.fly.recyclerviewrefresh.itemView.banner;
 import com.example.fly.recyclerviewrefresh.pojo.BannerVo;
 import com.example.fly.recyclerviewrefresh.pojo.ItemVo;
-import com.trecyclerview.SwipeRecyclerView;
-import com.trecyclerview.TRecyclerView;
-import com.trecyclerview.listener.OnLoadMoreListener;
-import com.trecyclerview.listener.OnRefreshListener;
-import com.trecyclerview.multitype.Items;
-import com.trecyclerview.multitype.MultiTypeAdapter;
-import com.trecyclerview.pojo.FootVo;
-import com.trecyclerview.pojo.HeaderVo;
-import com.trecyclerview.progressindicator.ProgressStyle;
-import com.trecyclerview.view.FootViewHolder;
-import com.trecyclerview.view.HeaderViewHolder;
+import com.fly.SwipeRecyclerView;
+import com.fly.listener.OnLoadMoreListener;
+import com.fly.multitype.Items;
+import com.fly.multitype.MultiTypeAdapter;
+import com.fly.pojo.FootVo;
+import com.fly.pojo.HeaderVo;
+import com.fly.progressindicator.ProgressStyle;
+import com.fly.view.FootViewHolder;
 
 
 /**

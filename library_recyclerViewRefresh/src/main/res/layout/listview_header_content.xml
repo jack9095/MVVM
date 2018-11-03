@@ -52,7 +52,7 @@
         android:layout_toLeftOf="@id/listview_header_text"
         android:src="@drawable/ic_arrow" />
 
-    <com.trecyclerview.view.SimpleViewSwitcher
+    <com.fly.view.SimpleViewSwitcher
         android:id="@+id/header_progressbar"
         android:layout_width="30dip"
         android:layout_height="30dip"

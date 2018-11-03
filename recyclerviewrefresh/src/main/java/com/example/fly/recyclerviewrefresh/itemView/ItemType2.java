@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.example.fly.recyclerviewrefresh.R;
 import com.example.fly.recyclerviewrefresh.pojo.Item2Vo;
-import com.trecyclerview.holder.AbsViewHolder;
-import com.trecyclerview.holder.BaseHolder;
+import com.fly.holder.AbsViewHolder;
+import com.fly.holder.BaseHolder;
 
 /**
  */

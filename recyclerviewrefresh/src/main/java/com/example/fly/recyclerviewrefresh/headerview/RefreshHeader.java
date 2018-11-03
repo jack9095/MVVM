@@ -11,9 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.fly.recyclerviewrefresh.R;
-import com.trecyclerview.listener.OnTouchMoveListener;
-import com.trecyclerview.view.ArrowRefreshHeader;
-import com.trecyclerview.view.BaseRefreshHeader;
+import com.fly.listener.OnTouchMoveListener;
 
 /**
  */

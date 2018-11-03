@@ -47,7 +47,7 @@
                 android:textColor="#ffffff" />
         </android.support.design.widget.AppBarLayout>
 
-        <com.trecyclerview.SwipeRecyclerView
+        <com.fly.SwipeRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

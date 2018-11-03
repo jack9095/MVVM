@@ -1,27 +1,17 @@
 package com.example.fly.recyclerviewrefresh;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import com.example.fly.recyclerviewrefresh.pojo.BannerVo;
 import com.example.fly.recyclerviewrefresh.pojo.ItemVo;
-import com.trecyclerview.listener.OnRefreshListener;
-import com.trecyclerview.multitype.Items;
-import com.trecyclerview.multitype.MultiTypeAdapter;
-import com.trecyclerview.pojo.FootVo;
-import com.trecyclerview.pojo.HeaderVo;
-import com.trecyclerview.progressindicator.ProgressStyle;
-import com.trecyclerview.view.FootViewHolder;
-import com.trecyclerview.view.HeaderViewHolder;
+import com.fly.multitype.Items;
 
 import java.util.Collections;
 import java.util.List;

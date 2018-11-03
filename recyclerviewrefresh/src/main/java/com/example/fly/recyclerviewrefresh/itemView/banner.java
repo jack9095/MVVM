@@ -6,12 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.fly.recyclerviewrefresh.R;
 import com.example.fly.recyclerviewrefresh.pojo.BannerVo;
-import com.trecyclerview.holder.AbsViewHolder;
-import com.trecyclerview.holder.BaseHolder;
+import com.fly.holder.AbsViewHolder;
+import com.fly.holder.BaseHolder;
 
 /**
  */

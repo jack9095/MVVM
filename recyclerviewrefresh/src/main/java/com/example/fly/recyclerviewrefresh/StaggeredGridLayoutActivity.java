@@ -12,25 +12,23 @@ import com.example.fly.recyclerviewrefresh.itemView.StageredItemType2;
 import com.example.fly.recyclerviewrefresh.itemView.banner;
 import com.example.fly.recyclerviewrefresh.pojo.BannerVo;
 import com.example.fly.recyclerviewrefresh.pojo.ItemVo;
-import com.trecyclerview.TRecyclerView;
-import com.trecyclerview.listener.OnRefreshListener;
-import com.trecyclerview.multitype.AbsItemView;
-import com.trecyclerview.multitype.ClassLinker;
-import com.trecyclerview.multitype.Items;
-import com.trecyclerview.multitype.MultiTypeAdapter;
-import com.trecyclerview.pojo.FootVo;
-import com.trecyclerview.pojo.HeaderVo;
-import com.trecyclerview.progressindicator.ProgressStyle;
-import com.trecyclerview.view.FootViewHolder;
-import com.trecyclerview.view.HeaderViewHolder;
-
-import static android.support.v7.widget.StaggeredGridLayoutManager.GAP_HANDLING_NONE;
+import com.fly.FRecyclerView;
+import com.fly.listener.OnRefreshListener;
+import com.fly.multitype.AbsItemView;
+import com.fly.multitype.ClassLinker;
+import com.fly.multitype.Items;
+import com.fly.multitype.MultiTypeAdapter;
+import com.fly.pojo.FootVo;
+import com.fly.pojo.HeaderVo;
+import com.fly.progressindicator.ProgressStyle;
+import com.fly.view.FootViewHolder;
+import com.fly.view.HeaderViewHolder;
 
 
 /**
  */
 public class StaggeredGridLayoutActivity extends AppCompatActivity {
-    private TRecyclerView tRecyclerView;
+    private FRecyclerView fRecyclerView;
     private Items items;
     private MultiTypeAdapter adapter;
     private int indexPage = 1;
@@ -39,7 +37,7 @@ public class StaggeredGridLayoutActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_type);
-        tRecyclerView = findViewById(R.id.recycler_view);
+        fRecyclerView = findViewById(R.id.recycler_view);
         items = new Items();
         adapter = new MultiTypeAdapter.Builder()
                 .bind(HeaderVo.class, new HeaderViewHolder(StaggeredGridLayoutActivity.this, ProgressStyle.Pacman))
@@ -59,14 +57,14 @@ public class StaggeredGridLayoutActivity extends AppCompatActivity {
                 .bind(FootVo.class, new FootViewHolder(StaggeredGridLayoutActivity.this, ProgressStyle.Pacman))
                 .build();
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        tRecyclerView.setAdapter(adapter);
-        tRecyclerView.setLayoutManager(layoutManager);
+        fRecyclerView.setAdapter(adapter);
+        fRecyclerView.setLayoutManager(layoutManager);
         setListener();
         initData();
     }
 
     private void setListener() {
-        tRecyclerView.addOnRefreshListener(new OnRefreshListener() {
+        fRecyclerView.addOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
@@ -82,7 +80,7 @@ public class StaggeredGridLayoutActivity extends AppCompatActivity {
                             }
 
                         }
-                        tRecyclerView.refreshComplete(items, false);
+                        fRecyclerView.refreshComplete(items, false);
 
                     }
 
@@ -103,9 +101,9 @@ public class StaggeredGridLayoutActivity extends AppCompatActivity {
                         items.addAll(item);
                         //模拟加载多页没有更多
                         if (indexPage == 4) {
-                            tRecyclerView.loadMoreComplete(item, true);
+                            fRecyclerView.loadMoreComplete(item, true);
                         } else {
-                            tRecyclerView.loadMoreComplete(item, false);
+                            fRecyclerView.loadMoreComplete(item, false);
                         }
 
                     }
@@ -125,6 +123,6 @@ public class StaggeredGridLayoutActivity extends AppCompatActivity {
                 items.add(new ItemVo("" + 2));
             }
         }
-        tRecyclerView.refreshComplete(items, true);
+        fRecyclerView.refreshComplete(items, true);
     }
 }
