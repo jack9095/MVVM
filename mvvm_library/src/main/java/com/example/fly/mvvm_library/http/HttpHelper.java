@@ -40,12 +40,12 @@ public class HttpHelper {
         return mHttpHelper;
     }
 
-    public static void init(String baseUrl) {
-        new Builder()
-                .initOkHttp()
-                .createRetrofit(baseUrl)
-                .build();
-    }
+//    public static void init(String baseUrl) {
+//        new Builder()
+//                .initOkHttp()
+//                .createRetrofit(baseUrl)
+//                .build();
+//    }
 
 
     public static class Builder {
@@ -70,7 +70,7 @@ public class HttpHelper {
              * HEADER:请求/响应行 + 头
              * BODY:请求/响应航 + 头 + 体
              */
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);  // 蛇之日止的打印级别
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);  // 设置日志的打印级别
             if (mBuilder == null) {
                 synchronized (HttpHelper.class) {
                     if (mBuilder == null) {
