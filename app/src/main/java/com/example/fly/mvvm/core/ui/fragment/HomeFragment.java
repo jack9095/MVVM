@@ -17,6 +17,7 @@ import com.example.fly.mvvm.core.vm.HomeViewModel;
 import com.trecyclerview.multitype.MultiTypeAdapter;
 
 /**
+ * 首页
  */
 public class HomeFragment extends BaseListFragment<HomeViewModel> {
 
@@ -77,6 +78,10 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> {
         mViewModel.getRequestMerge();
     }
 
+    /**
+     * 列表展示数据
+     * @param homeMergeVo
+     */
     private void addItems(HomeMergeVo homeMergeVo) {
         newItems.add(homeMergeVo.bannerListVo);
         newItems.add(new CatagoryVo("title"));

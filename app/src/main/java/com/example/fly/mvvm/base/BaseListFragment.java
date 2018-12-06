@@ -143,6 +143,4 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         mTitleBar.setVisibility(View.VISIBLE);
         mTitle.setText(titleName);
     }
-
-
 }

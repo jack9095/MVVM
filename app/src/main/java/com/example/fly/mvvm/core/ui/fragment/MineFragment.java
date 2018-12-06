@@ -1,5 +1,6 @@
 package com.example.fly.mvvm.core.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
@@ -25,6 +26,7 @@ public class MineFragment extends BaseFragment {
         return R.layout.fragment_mine;
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void initView(Bundle state) {
         loadManager.showStateView(LoadingState.class);

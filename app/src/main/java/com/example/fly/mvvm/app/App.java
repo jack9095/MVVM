@@ -10,6 +10,7 @@ import com.example.fly.mvvm.config.URL;
 import com.example.fly.mvvm_library.http.HttpHelper;
 import com.example.fly.mvvm_library.stateview.ErrorState;
 import com.example.fly.mvvm_library.stateview.LoadingState;
+import com.squareup.leakcanary.LeakCanary;
 import com.tqzhang.stateview.core.LoadState;
 
 /**
@@ -30,6 +31,7 @@ public class App extends Application implements ComponentCallbacks2{
     public void onCreate() {
         super.onCreate();
         instance = this;
+        LeakCanary.install(instance);
         new HttpHelper.Builder()
                 .initOkHttp()
                 .createRetrofit(URL.BASE_URL)

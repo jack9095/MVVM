@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bottomnavigationbar" />
+            <option value="$PROJECT_DIR$/imageloaderlibrary" />
+            <option value="$PROJECT_DIR$/imageloagutil" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/library_loadState" />
             <option value="$PROJECT_DIR$/library_recyclerViewRefresh" />
