@@ -10,7 +10,6 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
-import android.util.Log;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -50,11 +49,9 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
     @UiThread
     @Override
     public void clearMemoryCache(Context context) {
-        if (context != null) {
-            GlideApp.get(context).clearMemory();
-        }else if (mContext.get() != null) {
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
             GlideApp.get(mContext.get()).clearMemory();
-        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -63,11 +60,10 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
         new AsyncTask<Void, Void, Void> (){
             @Override
             protected Void doInBackground(Void... params) {
-                if (context != null) {
-                    Glide.get(context).clearDiskCache();
-                }else if (mContext.get() != null) {
+                if (context != null)
+                    mContext = new WeakReference<Context>(context);
                     Glide.get(mContext.get()).clearDiskCache();
-                }
+
                 return null;
             }
         };
@@ -78,17 +74,16 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void getBitmapFromCache(Context context, String url, final IGetBitmapListener listener) {
-        if (context == null) {
-            context = mContext.get();
-        }
-       GlideApp.with(context).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
-           @Override
-           public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-               if (listener != null) {
-                   listener.onBitmap(resource);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+           GlideApp.with(mContext.get()).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
+               @Override
+               public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                   if (listener != null) {
+                       listener.onBitmap(resource);
+                   }
                }
-           }
-       });
+           });
     }
 
     /**
@@ -96,7 +91,9 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayImage(Context context, String url, ImageView imageView, boolean isCache) {
-        GlideApp.with(context).load(url).skipMemoryCache(isCache).diskCacheStrategy(isCache ? DiskCacheStrategy.AUTOMATIC : DiskCacheStrategy.NONE).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(url).skipMemoryCache(isCache).diskCacheStrategy(isCache ? DiskCacheStrategy.AUTOMATIC : DiskCacheStrategy.NONE).into(imageView);
     }
 
     /**
@@ -107,7 +104,9 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayImage(Context context, String url, ImageView imageView, int defRes,int time) {
-        GlideApp.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).transition(new DrawableTransitionOptions().crossFade(time)).placeholder(defRes).error(defRes).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).transition(new DrawableTransitionOptions().crossFade(time)).placeholder(defRes).error(defRes).into(imageView);
     }
 
     /**
@@ -115,7 +114,9 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayCircleImage(Context context, String url, ImageView imageView, int defRes) {
-        GlideApp.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).apply(circleRequestOptions(defRes,defRes)).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).apply(circleRequestOptions(defRes,defRes)).into(imageView);
     }
 
     /**
@@ -123,7 +124,9 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayRoundImage(Context context, String url, ImageView imageView, int defRes, int radius) {
-        GlideApp.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).apply(roundRequestOptions(defRes,defRes,radius)).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).apply(roundRequestOptions(defRes,defRes,radius)).into(imageView);
     }
 
     public RequestOptions requestOptions(int placeholderResId, int errorResId) {
@@ -150,7 +153,9 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayImage(Context context, String url, ImageView imageView, int defRes, boolean cacheInMemory) {
-        GlideApp.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(defRes).error(defRes).skipMemoryCache(cacheInMemory).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).placeholder(defRes).error(defRes).skipMemoryCache(cacheInMemory).into(imageView);
     }
 
     private RequestOptions blurRequestOptions(int defRes, int defRes1, int blurRadius) {
@@ -163,7 +168,9 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayImageInResource(Context context, int resId, ImageView imageView) {
-        GlideApp.with(context).load(resId).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(resId).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView);
     }
 
     /**
@@ -171,18 +178,24 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayImageInResourceTransform(Context context, int resId, ImageView imageView, Transformation transformation, int errorResId) {
-        GlideApp.with(context).load(resId).diskCacheStrategy(DiskCacheStrategy.NONE).apply(requestOptionsTransform(errorResId,errorResId,transformation)).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(resId).diskCacheStrategy(DiskCacheStrategy.NONE).apply(requestOptionsTransform(errorResId,errorResId,transformation)).into(imageView);
     }
 
     @Override
     public void displayImageByNet(Context context, String url, ImageView imageView, int defRes, Transformation transformation) {
-        GlideApp.with(context).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).apply(requestOptionsTransform(defRes,defRes,transformation)).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).apply(requestOptionsTransform(defRes,defRes,transformation)).into(imageView);
     }
 
     //监听进度
     @Override
     public void disPlayImageProgressByOnProgressListener(Context context, final String url, ImageView imageView, int placeholderResId, int errorResId, OnProgressListener onProgressListener) {
-        GlideApp.with(context)
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get())
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .apply(new RequestOptions()
@@ -232,20 +245,23 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayImageThumbnail(Context context, String url, String backUrl, int thumbnailSize, ImageView imageView) {
-        if(thumbnailSize == 0) {
-            GlideApp.with(context)
-                    .load(url)
-                    .thumbnail(Glide.with(context)
-                            .load(backUrl))
-                    .into(imageView);
-        }else {
-            GlideApp.with(context)
-                    .load(url)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .thumbnail(GlideApp.with(context)
-                            .load(backUrl)
-                            .override(thumbnailSize))// API 来强制 Glide 在缩略图请求中加载一个低分辨率图像
-                    .into(imageView);
+        if (context != null) {
+            mContext = new WeakReference<Context>(context);
+            if (thumbnailSize == 0) {
+                GlideApp.with(mContext.get())
+                        .load(url)
+                        .thumbnail(Glide.with(context)
+                                .load(backUrl))
+                        .into(imageView);
+            } else {
+                GlideApp.with(mContext.get())
+                        .load(url)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .thumbnail(GlideApp.with(context)
+                                .load(backUrl)
+                                .override(thumbnailSize))// API 来强制 Glide 在缩略图请求中加载一个低分辨率图像
+                        .into(imageView);
+            }
         }
     }
 
@@ -255,13 +271,16 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayImageThumbnail(Context context, String url, float thumbnailSize, ImageView imageView) {
-        if(thumbnailSize >= 0.0F && thumbnailSize <= 1.0F) {
-            GlideApp.with(context)
-                    .load(url)
-                    .thumbnail(/*sizeMultiplier=*/ thumbnailSize)
-                    .into(imageView);
-        } else {
-            throw new IllegalArgumentException("thumbnailSize 的值必须在0到1之间");
+        if (context != null) {
+            mContext = new WeakReference<Context>(context);
+            if (thumbnailSize >= 0.0F && thumbnailSize <= 1.0F) {
+                GlideApp.with(mContext.get())
+                        .load(url)
+                        .thumbnail(/*sizeMultiplier=*/ thumbnailSize)
+                        .into(imageView);
+            } else {
+                throw new IllegalArgumentException("thumbnailSize 的值必须在0到1之间");
+            }
         }
     }
 
@@ -292,30 +311,38 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
      */
     @Override
     public void displayImageInResource(Context context, int resId, ImageView imageView, BitmapTransformation transformations) {
-        GlideApp.with(context).load(resId).diskCacheStrategy(DiskCacheStrategy.NONE).transform(transformations).into(imageView);
+        if (context != null) {
+            mContext = new WeakReference<Context>(context);
+            GlideApp.with(mContext.get()).load(resId).diskCacheStrategy(DiskCacheStrategy.NONE).transform(transformations).into(imageView);
+        }
     }
 
     @Override
     public void displayImageInResourceGif(Context context, int resId, ImageView imageView, BitmapTransformation transformations) {
-        GlideApp.with(context).asGif().load(resId).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).asGif().load(resId).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
     }
 
     @Override
     public void displayImageNetUrl(Context context, String resId, ImageView imageView, BitmapTransformation transformations) {
-        GlideApp.with(context).load(resId).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).transform(transformations).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(resId).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).transform(transformations).into(imageView);
     }
 
     @Override
     public void displayImageNetUrl(Context context, String resId, int defRes, ImageView imageView) {
-        if (context == null) {
-            context = mContext.get();
-        }
-        GlideApp.with(context).load(resId).placeholder(defRes).error(defRes).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).load(resId).placeholder(defRes).error(defRes).into(imageView);
     }
 
     @Override
     public void displayImageNetUrlGif(Context context, String resId, ImageView imageView, BitmapTransformation transformations) {
-        GlideApp.with(context).asGif().load(resId).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
+        if (context != null)
+            mContext = new WeakReference<Context>(context);
+        GlideApp.with(mContext.get()).asGif().load(resId).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
     }
 
 }
