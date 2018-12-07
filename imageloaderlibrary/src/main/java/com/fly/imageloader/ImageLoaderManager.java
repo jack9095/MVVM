@@ -13,6 +13,8 @@ public class ImageLoaderManager implements IImageLoaderClient {
 
     private static ImageLoaderManager mImageLoaderManager;
     private IImageLoaderClient mIImageLoaderClient;
+    public String fileName;
+    public int size;
 
     private ImageLoaderManager() {
         mIImageLoaderClient = new ImageLoaderClientImpl();

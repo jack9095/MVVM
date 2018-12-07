@@ -2,12 +2,15 @@ package com.fly.imageloader;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
+import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
+import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
 import java.io.InputStream;
@@ -33,8 +36,9 @@ public class AppGlideModuleGD extends AppGlideModule {
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
         super.applyOptions(context, builder);
 //        int memoryCacheSizeBytes = 1024 * 1024 * 250; // 250mb
-//        builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));
-//        builder.setDiskCache(new InternalCacheDiskCacheFactory(context, "gaoDunImages", memoryCacheSizeBytes));
+        int memoryCacheSizeBytes = 1024 * 1024 * (ImageLoaderManager.getInstance().size != 0 ? ImageLoaderManager.getInstance().size : 250);
+        builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));
+        builder.setDiskCache(new InternalCacheDiskCacheFactory(context, TextUtils.isEmpty(ImageLoaderManager.getInstance().fileName) ? ImageLoaderManager.getInstance().fileName : "gaoDunImages", memoryCacheSizeBytes));
     }
 
     @Override
