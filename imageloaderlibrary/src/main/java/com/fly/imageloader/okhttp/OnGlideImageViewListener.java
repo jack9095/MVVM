@@ -1,4 +1,4 @@
-package code.shiming.com.imageloader471.okhttp;
+package com.fly.imageloader.okhttp;
 
 import com.bumptech.glide.load.engine.GlideException;
 

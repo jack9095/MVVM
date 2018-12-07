@@ -1,4 +1,4 @@
-package code.shiming.com.imageloader471.tranform;
+package com.fly.imageloader.tranform;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

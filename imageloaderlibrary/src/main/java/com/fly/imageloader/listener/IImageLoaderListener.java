@@ -1,9 +1,8 @@
-package code.shiming.com.imageloader471.listener;
+package com.fly.imageloader.listener;
 
 import android.widget.ImageView;
 
 /**
- * Created by shiming on 2016/10/26.
  * 监听图片下载进度
  */
 public interface IImageLoaderListener {
