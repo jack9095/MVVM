@@ -239,7 +239,6 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
                             .load(backUrl))
                     .into(imageView);
         }else {
-            //越小，图片越小，低网络的情况，图片越小
             GlideApp.with(context)
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -251,7 +250,7 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
     }
 
     /**
-     *  * thumbnail 方法有一个简化版本，它只需要一个 sizeMultiplier 参数。
+     * thumbnail 方法有一个简化版本，它只需要一个 sizeMultiplier 参数。
      * 如果你只是想为你的加载相同的图片，但尺寸为 View 或 Target 的某个百分比的话特别有用：
      */
     @Override
@@ -308,12 +307,9 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
 
     @Override
     public void displayImageNetUrl(Context context, String resId, int defRes, ImageView imageView) {
-        Log.e("context 0 = ",context + "");
         if (context == null) {
             context = mContext.get();
         }
-
-        Log.e("context 1 = ",context + "");
         GlideApp.with(context).load(resId).placeholder(defRes).error(defRes).into(imageView);
     }
 
