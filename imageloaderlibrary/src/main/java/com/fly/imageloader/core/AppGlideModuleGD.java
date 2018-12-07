@@ -1,4 +1,4 @@
-package com.fly.imageloader;
+package com.fly.imageloader.core;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,8 +13,10 @@ import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
-import java.io.InputStream;
+import com.fly.imageloader.invocation.ImageLoaderManager;
 import com.fly.imageloader.okhttp.ProgressManager;
+
+import java.io.InputStream;
 
 
 @GlideModule

@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.fly.imageloader.ImageLoaderManager;
 import com.fly.imageloader.tranform.BlurBitmapTranformation;
 import com.fly.imageloader.tranform.GlideCircleTransformation;
 import com.fly.imageloader.tranform.RoundBitmapTranformation;

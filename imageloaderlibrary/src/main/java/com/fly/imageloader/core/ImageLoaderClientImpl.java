@@ -1,4 +1,4 @@
-package com.fly.imageloader;
+package com.fly.imageloader.core;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Transformation;
@@ -23,14 +24,16 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
-import java.io.File;
-import java.lang.ref.WeakReference;
+import com.fly.imageloader.GlideApp;
 import com.fly.imageloader.listener.IGetBitmapListener;
 import com.fly.imageloader.okhttp.OnProgressListener;
 import com.fly.imageloader.okhttp.ProgressManager;
 import com.fly.imageloader.tranform.BlurBitmapTranformation;
 import com.fly.imageloader.tranform.GlideCircleTransformation;
 import com.fly.imageloader.tranform.RoundBitmapTranformation;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
 
 public class ImageLoaderClientImpl implements IImageLoaderClient {
 

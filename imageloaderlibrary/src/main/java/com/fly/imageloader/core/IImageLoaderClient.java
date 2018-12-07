@@ -1,12 +1,14 @@
-package com.fly.imageloader;
+package com.fly.imageloader.core;
 
 import android.content.Context;
 import android.widget.ImageView;
+
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import java.io.File;
 import com.fly.imageloader.listener.IGetBitmapListener;
 import com.fly.imageloader.okhttp.OnProgressListener;
+
+import java.io.File;
 
 
 public interface IImageLoaderClient {
@@ -27,7 +29,7 @@ public interface IImageLoaderClient {
     void displayImage(Context context, String url, ImageView imageView, boolean isCache);
 
     // 加入过渡动画
-    void displayImage(Context context, String url, ImageView imageView, int defRes,int time);
+    void displayImage(Context context, String url, ImageView imageView, int defRes, int time);
 
     // 是否跳过内存缓存
     void displayImage(Context context, String url, ImageView imageView, int defRes, boolean cacheInMemory);
@@ -42,7 +44,7 @@ public interface IImageLoaderClient {
     void displayImageNetUrl(Context context, String resId, ImageView imageView, BitmapTransformation transformations);
 
     // 普通加载
-    void displayImageNetUrl(Context context, String resId, int defRes,ImageView imageView);
+    void displayImageNetUrl(Context context, String resId, int defRes, ImageView imageView);
 
     // 加载网络的gif图
     void displayImageNetUrlGif(Context context, String resId, ImageView imageView, BitmapTransformation transformations);
@@ -60,15 +62,15 @@ public interface IImageLoaderClient {
     void displayImageInResourceTransform(Context context, int resId, ImageView imageView, Transformation transformation, int errorResId);
 
     // 这是对网络图片，进行的图片操作，使用的glide中的方法
-    void displayImageByNet(Context context, String url, ImageView imageView, int defRes,Transformation transformation);
+    void displayImageByNet(Context context, String url, ImageView imageView, int defRes, Transformation transformation);
 
     // 加载缩图图     int thumbnailSize = 10;//越小，图片越小，低网络的情况，图片越小
-    void displayImageThumbnail(Context context,String url,String backUrl,int thumbnailSize,ImageView imageView);
+    void displayImageThumbnail(Context context, String url, String backUrl, int thumbnailSize, ImageView imageView);
 
     // 如果没有两个url的话，也想，记载一个缩略图
-    void displayImageThumbnail(Context context,String url,float thumbnailSize,ImageView imageView);
+    void displayImageThumbnail(Context context, String url, float thumbnailSize, ImageView imageView);
 
     // 监听图片的下载进度，是否完成，百分比 也可以加载本地图片
-    void disPlayImageProgressByOnProgressListener(Context context,String url,ImageView imageView,int placeholderResId,int errorResId, OnProgressListener onProgressListener);
+    void disPlayImageProgressByOnProgressListener(Context context, String url, ImageView imageView, int placeholderResId, int errorResId, OnProgressListener onProgressListener);
 
 }

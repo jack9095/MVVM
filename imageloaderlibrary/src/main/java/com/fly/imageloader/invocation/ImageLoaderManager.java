@@ -1,12 +1,15 @@
-package com.fly.imageloader;
+package com.fly.imageloader.invocation;
 
 import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.fly.imageloader.core.IImageLoaderClient;
+import com.fly.imageloader.core.ImageLoaderClientImpl;
 import com.fly.imageloader.listener.IGetBitmapListener;
 import com.fly.imageloader.okhttp.OnProgressListener;
+
 import java.io.File;
 
 public class ImageLoaderManager implements IImageLoaderClient {
@@ -36,6 +39,14 @@ public class ImageLoaderManager implements IImageLoaderClient {
         mIImageLoaderClient = new ImageLoaderClientImpl();
     }
 
+    private static class ImageLoaderManagerIn{
+        private static ImageLoaderManager INSTANCE = new ImageLoaderManager();
+    }
+
+    public static ImageLoaderManager getInstance(){
+        return ImageLoaderManagerIn.INSTANCE;
+    }
+
     /**
      * 扩展
      */
@@ -50,17 +61,6 @@ public class ImageLoaderManager implements IImageLoaderClient {
                 this.mIImageLoaderClient.init(context);
             }
         }
-    }
-
-    public static ImageLoaderManager getInstance() {
-        if (mImageLoaderManager == null) {
-            synchronized (ImageLoaderManager.class) {
-                if (mImageLoaderManager == null) {
-                    mImageLoaderManager = new ImageLoaderManager();
-                }
-            }
-        }
-        return mImageLoaderManager;
     }
 
     @Override
