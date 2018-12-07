@@ -9,6 +9,9 @@ import com.fly.imageloader.tranform.BlurBitmapTranformation;
 import com.fly.imageloader.tranform.GlideCircleTransformation;
 import com.fly.imageloader.tranform.RoundBitmapTranformation;
 
+/**
+ * https://muyangmin.github.io/glide-docs-cn/doc/getting-started.html
+ */
 public class MainActivity extends AppCompatActivity {
     private ImageView mImageView_1;
     private ImageView mImageView_2;
@@ -24,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findView();
         String url="http://img5.imgtn.bdimg.com/it/u=3532743473,184108530&fm=200&gp=0.jpg";
-        // 圆形图片
         ImageLoaderManager.getInstance().displayCircleImage(this, url, mImageView_1, R.mipmap.ic_launcher_round);
-        // 圆角图片
         ImageLoaderManager.getInstance().displayRoundImage(this, url, mImageView_2, R.mipmap.ic_launcher_round, 40);
 
         ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_4);

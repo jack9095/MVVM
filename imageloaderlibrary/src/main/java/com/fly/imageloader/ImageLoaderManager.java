@@ -20,12 +20,7 @@ public class ImageLoaderManager implements IImageLoaderClient {
 
     /**
      * 扩展
-     * @param client
      */
-    public void setIImageLoaderClient(IImageLoaderClient client){
-        this.mIImageLoaderClient = client;
-    }
-
     public void setImageLoaderClient(Context context, IImageLoaderClient client) {
         if (this.mIImageLoaderClient != null) {
             this.mIImageLoaderClient.clearMemoryCache(context);
