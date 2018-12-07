@@ -16,32 +16,32 @@ import okio.Source;
 public class ProgressResponseBody extends ResponseBody {
 
     private String imageUrl;
-    private ResponseBody responseBody;
-    private OnProgressListener progressListener;
-    private BufferedSource bufferedSource;
+    private ResponseBody mResponseBody;
+    private OnProgressListener mOnProgressListener;
+    private BufferedSource mBufferedSource;
 
     public ProgressResponseBody(String url, ResponseBody responseBody, OnProgressListener progressListener) {
         this.imageUrl = url;
-        this.responseBody = responseBody;
-        this.progressListener = progressListener;
+        this.mResponseBody = responseBody;
+        this.mOnProgressListener = progressListener;
     }
 
     @Override
     public MediaType contentType() {
-        return responseBody.contentType();
+        return mResponseBody.contentType();
     }
 
     @Override
     public long contentLength() {
-        return responseBody.contentLength();
+        return mResponseBody.contentLength();
     }
 
     @Override
     public BufferedSource source() {
-        if (bufferedSource == null) {
-            bufferedSource = Okio.buffer(source(responseBody.source()));
+        if (mBufferedSource == null) {
+            mBufferedSource = Okio.buffer(source(mResponseBody.source()));
         }
-        return bufferedSource;
+        return mBufferedSource;
     }
 
     private Source source(Source source) {
@@ -53,8 +53,8 @@ public class ProgressResponseBody extends ResponseBody {
                 long bytesRead = super.read(sink, byteCount);
                 totalBytesRead += (bytesRead == -1) ? 0 : bytesRead;
 
-                if (progressListener != null) {
-                    progressListener.onProgress(imageUrl, totalBytesRead, contentLength(), (bytesRead == -1), null);
+                if (mOnProgressListener != null) {
+                    mOnProgressListener.onProgress(imageUrl, totalBytesRead, contentLength(), (bytesRead == -1),0, null);
                 }
                 return bytesRead;
             }

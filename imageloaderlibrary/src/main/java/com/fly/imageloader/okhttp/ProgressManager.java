@@ -22,14 +22,14 @@ import okhttp3.Response;
 public class ProgressManager {
 
     private static List<WeakReference<OnProgressListener>> listeners = Collections.synchronizedList(new ArrayList<WeakReference<OnProgressListener>>());
-    private static OkHttpClient okHttpClient;
+    private static OkHttpClient mOkHttpClient;
 
     private ProgressManager() {
     }
 
     public static OkHttpClient getOkHttpClient() {
-        if (okHttpClient == null) {
-            okHttpClient = new OkHttpClient.Builder()
+        if (mOkHttpClient == null) {
+            mOkHttpClient = new OkHttpClient.Builder()
                     .addNetworkInterceptor(new Interceptor() {
                         @Override
                         public Response intercept(@NonNull Chain chain) throws IOException {
@@ -42,12 +42,12 @@ public class ProgressManager {
                     })
                     .build();
         }
-        return okHttpClient;
+        return mOkHttpClient;
     }
 
     private static final OnProgressListener LISTENER = new OnProgressListener() {
         @Override
-        public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception) {
+        public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone,int percent, GlideException exception) {
             if (listeners == null || listeners.size() == 0) return;
 
             for (int i = 0; i < listeners.size(); i++) {
@@ -56,7 +56,7 @@ public class ProgressManager {
                 if (progressListener == null) {
                     listeners.remove(i);
                 } else {
-                    progressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone, exception);
+                    progressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone, percent, exception);
                 }
             }
         }

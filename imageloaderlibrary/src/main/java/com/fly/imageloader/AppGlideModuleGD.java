@@ -27,7 +27,6 @@ public class AppGlideModuleGD extends AppGlideModule {
        Glide 使用 DiskLruCacheWrapper 作为默认的 磁盘缓存 。
        DiskLruCacheWrapper 是一个使用 LRU 算法的固定大小的磁盘缓存。默认磁盘大小为 250 MB ，
        位置是在应用的 缓存文件夹 中的一个 特定目录 。
-
      * 个人不建议去设置缓存，除非专门做图片APP
      */
     @Override

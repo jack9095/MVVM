@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.util.Log;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -26,24 +27,19 @@ import com.bumptech.glide.request.transition.Transition;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import com.fly.imageloader.listener.IGetBitmapListener;
-import com.fly.imageloader.okhttp.OnGlideImageViewListener;
 import com.fly.imageloader.okhttp.OnProgressListener;
 import com.fly.imageloader.okhttp.ProgressManager;
 import com.fly.imageloader.tranform.BlurBitmapTranformation;
 import com.fly.imageloader.tranform.GlideCircleTransformation;
 import com.fly.imageloader.tranform.RoundBitmapTranformation;
 
-public class GlideImageLoaderClient implements IImageLoaderClient {
+public class ImageLoaderClientImpl implements IImageLoaderClient {
 
     private WeakReference<Context> mContext;
 
     @Override
     public void init(Context context) {
         mContext = new WeakReference<Context>(context);
-    }
-    @Override
-    public void destroy(Context context) {
-        clearMemoryCache(context);
     }
 
     @Override
@@ -54,7 +50,11 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
     @UiThread
     @Override
     public void clearMemoryCache(Context context) {
-        GlideApp.get(context).clearMemory();
+        if (context != null) {
+            GlideApp.get(context).clearMemory();
+        }else if (mContext.get() != null) {
+            GlideApp.get(mContext.get()).clearMemory();
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -63,7 +63,11 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
         new AsyncTask<Void, Void, Void> (){
             @Override
             protected Void doInBackground(Void... params) {
-                Glide.get(context).clearDiskCache();
+                if (context != null) {
+                    Glide.get(context).clearDiskCache();
+                }else if (mContext.get() != null) {
+                    Glide.get(mContext.get()).clearDiskCache();
+                }
                 return null;
             }
         };
@@ -74,6 +78,9 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
      */
     @Override
     public void getBitmapFromCache(Context context, String url, final IGetBitmapListener listener) {
+        if (context == null) {
+            context = mContext.get();
+        }
        GlideApp.with(context).asBitmap().load(url).into(new SimpleTarget<Bitmap>() {
            @Override
            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -124,10 +131,7 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
                 .placeholder(placeholderResId)
                 .error(errorResId);
     }
-    public RequestOptions requestOptionsTransformation(int placeholderResId, int errorResId,BitmapTransformation bitmapTransformation) {
-        return requestOptions(placeholderResId,errorResId)
-                .transform(bitmapTransformation);
-    }
+
     /**
      * 加载圆图
      */
@@ -177,51 +181,6 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
 
     //监听进度
     @Override
-    public void disPlayImageProgress(Context context, final String url, ImageView imageView, int placeholderResId, int errorResId, OnGlideImageViewListener listener) {
-        GlideApp.with(context)
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .apply(new RequestOptions()
-                        .placeholder(placeholderResId)
-                        .error(errorResId))
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        mainThreadCallback(url,mLastBytesRead, mTotalBytes, true, e);
-                        ProgressManager.removeProgressListener(internalProgressListener);
-                        return false;
-                    }
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        mainThreadCallback(url,mLastBytesRead, mTotalBytes, true, null);
-                        ProgressManager.removeProgressListener(internalProgressListener);
-                        return false;
-                    }
-                }).into(imageView);
-
-        //赋值 上去
-        onGlideImageViewListener=listener;
-        mMainThreadHandler = new Handler(Looper.getMainLooper());
-        internalProgressListener = new OnProgressListener() {
-            @Override
-            public void onProgress(String imageUrl, final long bytesRead, final long totalBytes, final boolean isDone, final GlideException exception) {
-                if (totalBytes == 0) return;
-                if (mLastBytesRead == bytesRead && mLastStatus == isDone) return;
-
-                mLastBytesRead = bytesRead;
-                mTotalBytes = totalBytes;
-                mLastStatus = isDone;
-                mainThreadCallback(imageUrl,bytesRead, totalBytes, isDone, exception);
-
-                if (isDone) {
-                    ProgressManager.removeProgressListener(this);
-                }
-            }
-        };
-        ProgressManager.addProgressListener(internalProgressListener);
-    }
-
-    @Override
     public void disPlayImageProgressByOnProgressListener(Context context, final String url, ImageView imageView, int placeholderResId, int errorResId, OnProgressListener onProgressListener) {
         GlideApp.with(context)
                 .load(url)
@@ -233,23 +192,22 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         mainThreadCallback(url,mLastBytesRead, mTotalBytes, true, e);
-                        ProgressManager.removeProgressListener(internalProgressListener);
+                        ProgressManager.removeProgressListener(mOnProgressListener);
                         return false;
                     }
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         mainThreadCallback(url,mLastBytesRead, mTotalBytes, true, null);
-                        ProgressManager.removeProgressListener(internalProgressListener);
+                        ProgressManager.removeProgressListener(mOnProgressListener);
                         return false;
                     }
                 }).into(imageView);
 
-        //赋值 上去
-        this.onProgressListener = onProgressListener;
+        this.mOnProgressListener = onProgressListener;
         mMainThreadHandler = new Handler(Looper.getMainLooper());
-        internalProgressListener = new OnProgressListener() {
+        mOnProgressListener = new OnProgressListener() {
             @Override
-            public void onProgress(String imageUrl, final long bytesRead, final long totalBytes, final boolean isDone, final GlideException exception) {
+            public void onProgress(String imageUrl, final long bytesRead, final long totalBytes, final boolean isDone,int percent, final GlideException exception) {
                 if (totalBytes == 0) return;
                 if (mLastBytesRead == bytesRead && mLastStatus == isDone) return;
 
@@ -263,7 +221,7 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
                 }
             }
         };
-        ProgressManager.addProgressListener(internalProgressListener);
+        ProgressManager.addProgressListener(mOnProgressListener);
     }
 
     /**
@@ -316,20 +274,14 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
             @Override
             public void run() {
                 final int percent = (int) ((bytesRead * 1.0f / totalBytes) * 100.0f);
-                if (onProgressListener != null) {
-                    onProgressListener.onProgress(url, bytesRead, totalBytes, isDone, exception);
-                }
-
-                if (onGlideImageViewListener != null) {
-                    onGlideImageViewListener.onProgress(percent, isDone, exception);
+                if (mOnProgressListener != null) {
+                    mOnProgressListener.onProgress(url, bytesRead, totalBytes, isDone, percent, exception);
                 }
             }
         });
     }
     private boolean mLastStatus = false;
-    private OnProgressListener internalProgressListener;
-    private OnGlideImageViewListener onGlideImageViewListener;
-    private OnProgressListener onProgressListener;
+    private OnProgressListener mOnProgressListener;
 
     public RequestOptions requestOptionsTransform(int placeholderResId, int errorResId,Transformation transformation) {
         return new RequestOptions()
@@ -352,6 +304,17 @@ public class GlideImageLoaderClient implements IImageLoaderClient {
     @Override
     public void displayImageNetUrl(Context context, String resId, ImageView imageView, BitmapTransformation transformations) {
         GlideApp.with(context).load(resId).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).transform(transformations).into(imageView);
+    }
+
+    @Override
+    public void displayImageNetUrl(Context context, String resId, int defRes, ImageView imageView) {
+        Log.e("context 0 = ",context + "");
+        if (context == null) {
+            context = mContext.get();
+        }
+
+        Log.e("context 1 = ",context + "");
+        GlideApp.with(context).load(resId).placeholder(defRes).error(defRes).into(imageView);
     }
 
     @Override

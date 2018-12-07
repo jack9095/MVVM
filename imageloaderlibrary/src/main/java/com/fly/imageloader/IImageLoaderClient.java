@@ -6,7 +6,6 @@ import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import java.io.File;
 import com.fly.imageloader.listener.IGetBitmapListener;
-import com.fly.imageloader.okhttp.OnGlideImageViewListener;
 import com.fly.imageloader.okhttp.OnProgressListener;
 
 
@@ -14,9 +13,7 @@ public interface IImageLoaderClient {
 
     void init(Context context);
 
-    void destroy(Context context);
-
-    // 获取缓存文件
+    // 获取缓存
     File getCacheDir(Context context);
 
     void clearMemoryCache(Context context);
@@ -44,6 +41,9 @@ public interface IImageLoaderClient {
     // 加载网络图，对图片进行处理 圆形、圆角、模糊
     void displayImageNetUrl(Context context, String resId, ImageView imageView, BitmapTransformation transformations);
 
+    // 普通加载
+    void displayImageNetUrl(Context context, String resId, int defRes,ImageView imageView);
+
     // 加载网络的gif图
     void displayImageNetUrlGif(Context context, String resId, ImageView imageView, BitmapTransformation transformations);
 
@@ -69,9 +69,6 @@ public interface IImageLoaderClient {
     void displayImageThumbnail(Context context,String url,float thumbnailSize,ImageView imageView);
 
     // 监听图片的下载进度，是否完成，百分比 也可以加载本地图片
-    void disPlayImageProgress(Context context,String url,ImageView imageView,int placeholderResId,int errorResId,OnGlideImageViewListener listener);
-
-    // 图片
     void disPlayImageProgressByOnProgressListener(Context context,String url,ImageView imageView,int placeholderResId,int errorResId, OnProgressListener onProgressListener);
 
 }
