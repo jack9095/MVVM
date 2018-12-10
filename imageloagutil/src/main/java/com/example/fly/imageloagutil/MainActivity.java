@@ -37,9 +37,13 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(new Intent(MainActivity.this,ProgressActivity.class));
             }
         });
+        ImageLoaderManager.getInstance().setFileName("fly");
+        ImageLoaderManager.getInstance().setSize(300);
         String url="http://img5.imgtn.bdimg.com/it/u=3532743473,184108530&fm=200&gp=0.jpg";
         ImageLoaderManager.getInstance().displayCircleImage(this, url, mImageView_1, R.mipmap.ic_launcher_round);
         ImageLoaderManager.getInstance().displayRoundImage(this, url, mImageView_2, R.mipmap.ic_launcher_round, 40);
+
+        ImageLoaderManager.getInstance().displayImageNetUrlGif(this, "https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/80cb39dbb6fd5266ad7a5e30a318972bd4073644.gif", mImageView_3,null);
 
         ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_4);
         //本地图片，模糊处理

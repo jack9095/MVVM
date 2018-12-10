@@ -341,7 +341,7 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
     public void displayImageNetUrlGif(Context context, String resId, ImageView imageView, BitmapTransformation transformations) {
         if (context != null)
             mContext = new WeakReference<Context>(context);
-        GlideApp.with(mContext.get()).asGif().load(resId).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
+        GlideApp.with(mContext.get()).asGif().load(resId).diskCacheStrategy(DiskCacheStrategy.RESOURCE).transform(transformations).into(imageView);
     }
 
 }

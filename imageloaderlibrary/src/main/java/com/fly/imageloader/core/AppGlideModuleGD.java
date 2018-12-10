@@ -3,6 +3,7 @@ package com.fly.imageloader.core;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
@@ -38,9 +39,11 @@ public class AppGlideModuleGD extends AppGlideModule {
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
         super.applyOptions(context, builder);
 //        int memoryCacheSizeBytes = 1024 * 1024 * 250; // 250mb
-//        int memoryCacheSizeBytes = 1024 * 1024 * (ImageLoaderManager.getInstance().getSize() != 0 ? ImageLoaderManager.getInstance().getSize() : 250);
-//        builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));
-//        builder.setDiskCache(new InternalCacheDiskCacheFactory(context, TextUtils.isEmpty(ImageLoaderManager.getInstance().getFileName()) ? ImageLoaderManager.getInstance().getFileName() : "gaoDunImages", memoryCacheSizeBytes));
+        System.out.println("大小 = " + ImageLoaderManager.getInstance().getSize());
+        System.out.println("文件名称 = " + ImageLoaderManager.getInstance().getFileName());
+        int memoryCacheSizeBytes = 1024 * 1024 * (ImageLoaderManager.getInstance().getSize() != 0 ? ImageLoaderManager.getInstance().getSize() : 250);
+        builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));
+        builder.setDiskCache(new InternalCacheDiskCacheFactory(context, TextUtils.isEmpty(ImageLoaderManager.getInstance().getFileName()) ? ImageLoaderManager.getInstance().getFileName() : "gaoDunImages", memoryCacheSizeBytes));
     }
 
     @Override
