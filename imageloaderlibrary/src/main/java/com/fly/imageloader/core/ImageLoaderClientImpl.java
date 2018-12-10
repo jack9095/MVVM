@@ -194,7 +194,7 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
     public void disPlayImageProgressByOnProgressListener(Context context, final String url, ImageView imageView, int placeholderResId, int errorResId, OnProgressListener onProgressListener) {
         GlideApp.with(context)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)//todo 我是为了测试，看到进度条，才把缓存策略设置成这样的，项目中一定不要这样做
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .apply(new RequestOptions()
                         .placeholder(placeholderResId)
                         .error(errorResId))

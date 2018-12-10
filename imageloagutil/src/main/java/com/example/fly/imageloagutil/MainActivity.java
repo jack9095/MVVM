@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         mImageView_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ProgressActivity.class));
+//                startActivity(new Intent(MainActivity.this,ProgressActivity.class));
             }
         });
         String url="http://img5.imgtn.bdimg.com/it/u=3532743473,184108530&fm=200&gp=0.jpg";
