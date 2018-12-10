@@ -211,7 +211,8 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
                         ProgressManager.removeProgressListener(internalProgressListener);
                         return false;
                     }
-                }).into(imageView);
+                })
+                .into(imageView);
 
         this.mOnProgressListener = onProgressListener;
         mMainThreadHandler = new Handler(Looper.getMainLooper());

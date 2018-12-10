@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_7, new RoundBitmapTranformation( 40));
 
 
-        ImageLoaderManager.getInstance().disPlayImageProgressByOnProgressListener(this, "http://img.zcool.cn/community/0142135541fe180000019ae9b8cf86.jpg@1280w_1l_2o_100sh.png", mImageView_8, R.mipmap.test, R.mipmap.test, new OnProgressListener() {
+        ImageLoaderManager.getInstance().disPlayImageProgressByOnProgressListener(this, "http://img.zcool.cn/community/0142135541fe180000019ae9b8cf86.jpg@1280w_1l_2o_100sh.png", mImageView_8, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new OnProgressListener() {
 
             @Override
             public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone,GlideException exception) {
