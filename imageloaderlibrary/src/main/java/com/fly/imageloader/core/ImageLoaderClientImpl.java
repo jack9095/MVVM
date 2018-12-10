@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Transformation;
@@ -24,14 +23,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
-import com.fly.imageloader.GlideApp;
 import com.fly.imageloader.listener.IGetBitmapListener;
 import com.fly.imageloader.okhttp.OnProgressListener;
 import com.fly.imageloader.okhttp.ProgressManager;
 import com.fly.imageloader.tranform.BlurBitmapTranformation;
 import com.fly.imageloader.tranform.GlideCircleTransformation;
 import com.fly.imageloader.tranform.RoundBitmapTranformation;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
 
@@ -193,14 +190,11 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
         GlideApp.with(mContext.get()).load(url).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).apply(requestOptionsTransform(defRes,defRes,transformation)).into(imageView);
     }
 
-    //监听进度
     @Override
     public void disPlayImageProgressByOnProgressListener(Context context, final String url, ImageView imageView, int placeholderResId, int errorResId, OnProgressListener onProgressListener) {
-        if (context != null)
-            mContext = new WeakReference<Context>(context);
-        GlideApp.with(mContext.get())
+        GlideApp.with(context)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)//todo 我是为了测试，看到进度条，才把缓存策略设置成这样的，项目中一定不要这样做
                 .apply(new RequestOptions()
                         .placeholder(placeholderResId)
                         .error(errorResId))
@@ -208,22 +202,22 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         mainThreadCallback(url,mLastBytesRead, mTotalBytes, true, e);
-                        ProgressManager.removeProgressListener(mOnProgressListener);
+                        ProgressManager.removeProgressListener(internalProgressListener);
                         return false;
                     }
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         mainThreadCallback(url,mLastBytesRead, mTotalBytes, true, null);
-                        ProgressManager.removeProgressListener(mOnProgressListener);
+                        ProgressManager.removeProgressListener(internalProgressListener);
                         return false;
                     }
                 }).into(imageView);
 
         this.mOnProgressListener = onProgressListener;
         mMainThreadHandler = new Handler(Looper.getMainLooper());
-        mOnProgressListener = new OnProgressListener() {
+        internalProgressListener = new OnProgressListener() {
             @Override
-            public void onProgress(String imageUrl, final long bytesRead, final long totalBytes, final boolean isDone,int percent, final GlideException exception) {
+            public void onProgress(String imageUrl, final long bytesRead, final long totalBytes, final boolean isDone, final GlideException exception) {
                 if (totalBytes == 0) return;
                 if (mLastBytesRead == bytesRead && mLastStatus == isDone) return;
 
@@ -237,7 +231,7 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
                 }
             }
         };
-        ProgressManager.addProgressListener(mOnProgressListener);
+        ProgressManager.addProgressListener(internalProgressListener);
     }
 
     /**
@@ -296,13 +290,14 @@ public class ImageLoaderClientImpl implements IImageLoaderClient {
             public void run() {
                 final int percent = (int) ((bytesRead * 1.0f / totalBytes) * 100.0f);
                 if (mOnProgressListener != null) {
-                    mOnProgressListener.onProgress(url, bytesRead, totalBytes, isDone, percent, exception);
+                    mOnProgressListener.onProgress(url, bytesRead, totalBytes, isDone, exception);
                 }
             }
         });
     }
     private boolean mLastStatus = false;
     private OnProgressListener mOnProgressListener;
+    private OnProgressListener internalProgressListener;
 
     public RequestOptions requestOptionsTransform(int placeholderResId, int errorResId,Transformation transformation) {
         return new RequestOptions()

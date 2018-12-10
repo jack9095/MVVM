@@ -14,7 +14,6 @@ import java.io.File;
 
 public class ImageLoaderManager implements IImageLoaderClient {
 
-    private static ImageLoaderManager mImageLoaderManager;
     private IImageLoaderClient mIImageLoaderClient;
     private String fileName;
     private int size;
@@ -40,7 +39,7 @@ public class ImageLoaderManager implements IImageLoaderClient {
     }
 
     private static class ImageLoaderManagerIn{
-        private static ImageLoaderManager INSTANCE = new ImageLoaderManager();
+        private static final ImageLoaderManager INSTANCE = new ImageLoaderManager();
     }
 
     public static ImageLoaderManager getInstance(){

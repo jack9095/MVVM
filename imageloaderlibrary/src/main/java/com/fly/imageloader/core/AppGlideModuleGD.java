@@ -38,9 +38,9 @@ public class AppGlideModuleGD extends AppGlideModule {
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
         super.applyOptions(context, builder);
 //        int memoryCacheSizeBytes = 1024 * 1024 * 250; // 250mb
-        int memoryCacheSizeBytes = 1024 * 1024 * (ImageLoaderManager.getInstance().getSize() != 0 ? ImageLoaderManager.getInstance().getSize() : 250);
-        builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));
-        builder.setDiskCache(new InternalCacheDiskCacheFactory(context, TextUtils.isEmpty(ImageLoaderManager.getInstance().getFileName()) ? ImageLoaderManager.getInstance().getFileName() : "gaoDunImages", memoryCacheSizeBytes));
+//        int memoryCacheSizeBytes = 1024 * 1024 * (ImageLoaderManager.getInstance().getSize() != 0 ? ImageLoaderManager.getInstance().getSize() : 250);
+//        builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));
+//        builder.setDiskCache(new InternalCacheDiskCacheFactory(context, TextUtils.isEmpty(ImageLoaderManager.getInstance().getFileName()) ? ImageLoaderManager.getInstance().getFileName() : "gaoDunImages", memoryCacheSizeBytes));
     }
 
     @Override

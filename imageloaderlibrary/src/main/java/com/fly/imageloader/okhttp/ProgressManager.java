@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,14 +21,14 @@ import okhttp3.Response;
 public class ProgressManager {
 
     private static List<WeakReference<OnProgressListener>> listeners = Collections.synchronizedList(new ArrayList<WeakReference<OnProgressListener>>());
-    private static OkHttpClient mOkHttpClient;
+    private static OkHttpClient okHttpClient;
 
     private ProgressManager() {
     }
 
     public static OkHttpClient getOkHttpClient() {
-        if (mOkHttpClient == null) {
-            mOkHttpClient = new OkHttpClient.Builder()
+        if (okHttpClient == null) {
+            okHttpClient = new OkHttpClient.Builder()
                     .addNetworkInterceptor(new Interceptor() {
                         @Override
                         public Response intercept(@NonNull Chain chain) throws IOException {
@@ -42,12 +41,12 @@ public class ProgressManager {
                     })
                     .build();
         }
-        return mOkHttpClient;
+        return okHttpClient;
     }
 
     private static final OnProgressListener LISTENER = new OnProgressListener() {
         @Override
-        public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone,int percent, GlideException exception) {
+        public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception) {
             if (listeners == null || listeners.size() == 0) return;
 
             for (int i = 0; i < listeners.size(); i++) {
@@ -56,7 +55,7 @@ public class ProgressManager {
                 if (progressListener == null) {
                     listeners.remove(i);
                 } else {
-                    progressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone, percent, exception);
+                    progressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone, exception);
                 }
             }
         }
