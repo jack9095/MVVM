@@ -34,24 +34,24 @@ public class MainActivity extends AppCompatActivity {
         mImageView_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this,ProgressActivity.class));
+                startActivity(new Intent(MainActivity.this,ProgressActivity.class));
             }
         });
-        ImageLoaderManager.getInstance().setFileName("fly");
-        ImageLoaderManager.getInstance().setSize(300);
+//        ImageLoaderManager.getInstance().setFileName("fly");
+//        ImageLoaderManager.getInstance().setSize(300);
         String url="http://img5.imgtn.bdimg.com/it/u=3532743473,184108530&fm=200&gp=0.jpg";
         ImageLoaderManager.getInstance().displayCircleImage(this, url, mImageView_1, R.mipmap.ic_launcher_round);
         ImageLoaderManager.getInstance().displayRoundImage(this, url, mImageView_2, R.mipmap.ic_launcher_round, 40);
 
-        ImageLoaderManager.getInstance().displayImageNetUrlGif(this, "https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/80cb39dbb6fd5266ad7a5e30a318972bd4073644.gif", mImageView_3,null);
+//        ImageLoaderManager.getInstance().displayImageNetUrlGif(this, "https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/80cb39dbb6fd5266ad7a5e30a318972bd4073644.gif", mImageView_3,new GlideCircleTransformation());
 
         ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_4);
         //本地图片，模糊处理
-        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_5, new BlurBitmapTranformation( 200));
+//        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_5, new BlurBitmapTranformation( 200));
         //本地图片，裁圆角处理
-        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_6, new GlideCircleTransformation());
+//        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_6, new GlideCircleTransformation());
         //四周圆角处理
-        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_7, new RoundBitmapTranformation( 40));
+//        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_7, new RoundBitmapTranformation( 40));
 
 
         ImageLoaderManager.getInstance().disPlayImageProgressByOnProgressListener(this, "http://img.zcool.cn/community/0142135541fe180000019ae9b8cf86.jpg@1280w_1l_2o_100sh.png", mImageView_8, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new OnProgressListener() {
