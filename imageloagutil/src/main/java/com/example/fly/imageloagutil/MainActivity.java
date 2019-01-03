@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.fly.imageloader.invocation.ImageLoaderManager;
 import com.fly.imageloader.okhttp.OnProgressListener;
 import com.fly.imageloader.tranform.BlurBitmapTranformation;
@@ -39,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
         });
 //        ImageLoaderManager.getInstance().setFileName("fly");
 //        ImageLoaderManager.getInstance().setSize(300);
-        String url="http://img5.imgtn.bdimg.com/it/u=3532743473,184108530&fm=200&gp=0.jpg";
-        ImageLoaderManager.getInstance().displayCircleImage(this, url, mImageView_1, R.mipmap.ic_launcher_round);
-        ImageLoaderManager.getInstance().displayRoundImage(this, url, mImageView_2, R.mipmap.ic_launcher_round, 40);
+//        String url="http://img5.imgtn.bdimg.com/it/u=3532743473,184108530&fm=200&gp=0.jpg";
+//        ImageLoaderManager.getInstance().displayCircleImage(this, url, mImageView_1, R.mipmap.ic_launcher_round);
+//        ImageLoaderManager.getInstance().displayRoundImage(this, url, mImageView_2, R.mipmap.ic_launcher_round, 40);
 
 //        ImageLoaderManager.getInstance().displayImageNetUrlGif(this, "https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/80cb39dbb6fd5266ad7a5e30a318972bd4073644.gif", mImageView_3,new GlideCircleTransformation());
 
-        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_4);
+//        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_4);
         //本地图片，模糊处理
 //        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_5, new BlurBitmapTranformation( 200));
         //本地图片，裁圆角处理
@@ -54,20 +57,20 @@ public class MainActivity extends AppCompatActivity {
 //        ImageLoaderManager.getInstance().displayImageInResource(this, R.mipmap.ic_launcher, mImageView_7, new RoundBitmapTranformation( 40));
 
 
-        ImageLoaderManager.getInstance().disPlayImageProgressByOnProgressListener(this, "http://img.zcool.cn/community/0142135541fe180000019ae9b8cf86.jpg@1280w_1l_2o_100sh.png", mImageView_8, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new OnProgressListener() {
-
-            @Override
-            public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone,GlideException exception) {
-                Log.e("MainActivity","fly bytesRead="+bytesRead);
-                Log.e("MainActivity","fly totalBytes="+totalBytes);
-//                System.out.println("fly percent="+percent);
-//                mProgress7.setText("我在主线程，进度是多少==+bytesRead"+bytesRead+"totalBytes="+totalBytes);
-
-                if (isDone){
-//                    mProgress7.setText("我在主线程，进度是多少==100%");
-                }
-            }
-        });
+//        ImageLoaderManager.getInstance().disPlayImageProgressByOnProgressListener(this, "http://img.zcool.cn/community/0142135541fe180000019ae9b8cf86.jpg@1280w_1l_2o_100sh.png", mImageView_8, R.mipmap.ic_launcher, R.mipmap.ic_launcher, new OnProgressListener() {
+//
+//            @Override
+//            public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone,GlideException exception) {
+//                Log.e("MainActivity","fly bytesRead="+bytesRead);
+//                Log.e("MainActivity","fly totalBytes="+totalBytes);
+////                System.out.println("fly percent="+percent);
+////                mProgress7.setText("我在主线程，进度是多少==+bytesRead"+bytesRead+"totalBytes="+totalBytes);
+//
+//                if (isDone){
+////                    mProgress7.setText("我在主线程，进度是多少==100%");
+//                }
+//            }
+//        });
     }
 
     private void findView() {
@@ -79,5 +82,9 @@ public class MainActivity extends AppCompatActivity {
         mImageView_6 = findViewById(R.id.image_view_6);
         mImageView_7 = findViewById(R.id.image_view_7);
         mImageView_8 = findViewById(R.id.image_view_8);
+        Glide.with(this)
+                .load("http://img5.duitang.com/uploads/item/201506/07/20150607110911_kY5cP.jpeg")
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .into(mImageView_1);
     }
 }

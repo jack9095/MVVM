@@ -6,6 +6,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.bumptech.glide.Glide;
+import com.codemonkeylabs.fpslibrary.FrameDataCallback;
+import com.codemonkeylabs.fpslibrary.TinyDancer;
 import com.example.fly.mvvm.config.URL;
 import com.example.fly.mvvm_library.http.HttpHelper;
 import com.example.fly.mvvm_library.stateview.ErrorState;
@@ -41,6 +43,28 @@ public class App extends Application implements ComponentCallbacks2{
                 .register(new LoadingState())
                 .setDefaultCallback(LoadingState.class)
                 .build();
+
+        TinyDancer.create()
+                .show(this);
+
+        //alternatively
+        TinyDancer.create()
+                .redFlagPercentage(.1f) // set red indicator for 10%....different from default
+                .startingXPosition(200)
+                .startingYPosition(600)
+                .show(this);
+
+        //you can add a callback to get frame times and the calculated
+        //number of dropped frames within that window
+        TinyDancer.create()
+                .addFrameDataCallback(new FrameDataCallback() {
+                    @Override
+                    public void doFrame(long previousFrameNS, long currentFrameNS, int droppedFrames) {
+                        //collect your stats here
+                    }
+                })
+                .show(this);
+
     }
 
     public static App getInstance(){

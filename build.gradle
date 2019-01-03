@@ -6,11 +6,15 @@ buildscript {
         google()
         jcenter(){ url 'http://jcenter.bintray.com/'}
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//        maven {
+//            url "https://dl.bintray.com/matrix/maven/"
+//        }
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath 'com.meituan.android.walle:plugin:1.1.6'
+//        classpath 'com.tencent.matrix:matrix-gradle-plugin:0.4.7'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
