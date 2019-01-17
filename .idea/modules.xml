@@ -13,6 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/loadstate/loadstate.iml" filepath="$PROJECT_DIR$/loadstate/loadstate.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvvm_library/mvvm_library.iml" filepath="$PROJECT_DIR$/mvvm_library/mvvm_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/recyclerviewrefresh/recyclerviewrefresh.iml" filepath="$PROJECT_DIR$/recyclerviewrefresh/recyclerviewrefresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/refreshlayout/refreshlayout.iml" filepath="$PROJECT_DIR$/refreshlayout/refreshlayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/scrollview/scrollview.iml" filepath="$PROJECT_DIR$/scrollview/scrollview.iml" />
       <module fileurl="file://$PROJECT_DIR$/tablayout/tablayout.iml" filepath="$PROJECT_DIR$/tablayout/tablayout.iml" />
     </modules>

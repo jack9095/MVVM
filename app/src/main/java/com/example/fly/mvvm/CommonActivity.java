@@ -1,5 +1,6 @@
 package com.example.fly.mvvm;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
         return R.layout.activity_common;
     }
 
+    @SuppressLint("CommitTransaction")
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();

@@ -11,9 +11,7 @@ import com.example.fly.mvvm.core.bean.pojo.home.CatagoryInfoVo;
 
 import java.util.List;
 
-/**
- *
- */
+
 public class HomeCategoryAdapter extends BaseRecyclerAdapter<CatagoryInfoVo> {
 
 

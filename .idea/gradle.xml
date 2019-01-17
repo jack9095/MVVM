@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/loadstate" />
             <option value="$PROJECT_DIR$/mvvm_library" />
             <option value="$PROJECT_DIR$/recyclerviewrefresh" />
+            <option value="$PROJECT_DIR$/refreshlayout" />
             <option value="$PROJECT_DIR$/scrollview" />
             <option value="$PROJECT_DIR$/tablayout" />
           </set>
