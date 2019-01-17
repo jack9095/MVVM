@@ -4,6 +4,7 @@ package com.example.fly.mvvm.utils;
  * Created by fei.wang on 2018/10/15.
  */
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.telephony.TelephonyManager;
@@ -65,10 +66,11 @@ public class SystemUtil {
      *
      * @return  手机IMEI
      */
+    @SuppressLint({"MissingPermission", "HardwareIds"})
     public static String getIMEI(Context ctx) {
         TelephonyManager tm = (TelephonyManager) ctx.getSystemService(Activity.TELEPHONY_SERVICE);
         if (tm != null) {
-            return tm.getDeviceId();
+//            return tm.getDeviceId();
         }
         return null;
     }

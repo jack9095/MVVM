@@ -51,7 +51,7 @@ public class MineFragment extends BaseFragment {
             webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
         webView.setWebChromeClient(new MyWebChromeClient());
-        webView.loadUrl("https://github.com/wangfeigit/MVVM");
+        webView.loadUrl("https://www.baidu.com");
 
     }
 

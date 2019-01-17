@@ -49,18 +49,15 @@ public class App extends Application implements ComponentCallbacks2{
 
         //alternatively
         TinyDancer.create()
-                .redFlagPercentage(.1f) // set red indicator for 10%....different from default
+                .redFlagPercentage(.1f)
                 .startingXPosition(200)
                 .startingYPosition(600)
                 .show(this);
 
-        //you can add a callback to get frame times and the calculated
-        //number of dropped frames within that window
         TinyDancer.create()
                 .addFrameDataCallback(new FrameDataCallback() {
                     @Override
                     public void doFrame(long previousFrameNS, long currentFrameNS, int droppedFrames) {
-                        //collect your stats here
                     }
                 })
                 .show(this);
