@@ -29,9 +29,9 @@ import android.widget.Scroller;
  * 默认下拉有效的高度为80dp,上拉有效的高度为45dp
  */
 
-public class RefreshLayout extends ViewGroup implements NestedScrollingParent, NestedScrollingChild {
+public class RefreshLoadLayout extends ViewGroup implements NestedScrollingParent, NestedScrollingChild {
 
-    private static final String TAG                             = RefreshLayout.class.getSimpleName();
+    private static final String TAG                             = RefreshLoadLayout.class.getSimpleName();
     private static final int    MSG_PULL_UP                     = 100;
     private static final int    MSG_DOWN_RESET                  = 101;
     private static final int    MSG_UP_RESET                    = 102;
@@ -40,7 +40,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
     private static final int    SCROLL_UP                       = 0;  //下拉(currY>lastY)
     private static final int    SCROLL_DOWN                     = 1;  //上拉(currY<lastY)
     private static final float  DECELERATE_INTERPOLATION_FACTOR = 2F; //滑动阻尼因子
-    private static       int    ANIMATION_EXTEND_DURATION       = 200; // 刷新动画的时长
+    private static       int    ANIMATION_EXTEND_DURATION       = 200;
     private              int    childHeaderHeight               = 150;
     private              int    childFooterHeight               = 150;
     private              int    childBottomHeight               = 120;
@@ -59,14 +59,14 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
     private boolean isLastScrollComplete;   //是否上一次滑动已结束
     private int     direction;
 
-    private View     mTarget;  // 就是这个自定义ViewGroup刷新加载控件，内部加载的滑动控件（非滑动控件也可以的)）
+    private View     mTarget;
     private Scroller mScroller;
 
     private CanChildScrollDown mCanChildScrollDown;
     private CanChildScrollUp   mCanChildScrollUp;
 
-    private int effectivePullDownRange;  // 默认下拉的有效高度为80
-    private int effectivePullUpRange;    // 默认上拉的高度为45
+    private int effectivePullDownRange;
+    private int effectivePullUpRange;
     private int ignorePullRange;
 
     private IHeaderWrapper mHeaderWrapper;
@@ -77,49 +77,40 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
     private View mFooterView;
     private View mBottomView;
 
-    private int   currentState;  // 当前状态
+    private int   currentState;
     private float mLastY;
     private float mLastX;
 
-    private OnRefreshListener mRefreshListener; // 刷新和加载的接口监听
+    private OnRefreshListener mRefreshListener;
 
-    // java代码创建视图的时候被调用
-    public RefreshLayout(Context context) {
+    public RefreshLoadLayout(Context context) {
         this(context, null);
     }
 
-    // xml创建视图并且没有指定StyleAttr是调用 至于attrs，是默认指定了的
-    public RefreshLayout(Context context, AttributeSet attrs) {
+    public RefreshLoadLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    //xml创建视图并且指定StyleAttr是调用,一般不需需要
-    public RefreshLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RefreshLoadLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
 
     private void initView() {
-        currentState = ConstanceState.PULL_DOWN_RESET;  //下拉恢复正常
+        currentState = State.PULL_DOWN_RESET;
         mNestedScrollingParentHelper = new NestedScrollingParentHelper(this);
         mNestedScrollingChildHelper = new NestedScrollingChildHelper(this);
         mScroller = new Scroller(getContext(), new LinearInterpolator());
-        effectivePullDownRange = (int) (getContext().getResources().getDisplayMetrics().density * 80); // 默认下拉的有效高度为80
-        effectivePullUpRange = (int) (getContext().getResources().getDisplayMetrics().density * 45);   // 默认上拉的高度为45
+        effectivePullDownRange = (int) (getContext().getResources().getDisplayMetrics().density * 80);
+        effectivePullUpRange = (int) (getContext().getResources().getDisplayMetrics().density * 45);
         ignorePullRange = (int) (getContext().getResources().getDisplayMetrics().density * 8);
 
         setNestedScrollingEnabled(true);
     }
 
-    /**
-     * 在Xml写的布局文件最终会在通过Pull解析的方式转成代码的
-     * onFinishInflate的作用，就是在xml加载组件完成后调用的。这个方法一般在自制ViewGroup的时候调用
-     */
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-//        mViewText = getChildAt(0);
-//        myDiyView = getChildAt(1);
     }
 
     //设置刷新布局
@@ -127,7 +118,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
         if (header == null) return;
         this.mHeaderWrapper = header;
         this.mHeaderView = header.getHeaderView();
-        addView(mHeaderView); // 把自定义的头部布局添加到ViewGroup中
+        addView(mHeaderView);
     }
 
     public void setHeaderView(IHeaderWrapper header, int height) {
@@ -222,13 +213,13 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
     }
 
     /**
-     * 是否显示没有更多数据
-     * @param noMore true 表示显示没有更多数据
+     *
+     * @param noMore true 表示显示没有更多
      */
     public void showNoMore(boolean noMore) {
         //Handler是为了让上拉回弹先走完，再显示BottomView;
         this.showBottom = noMore;
-        if (showBottom && ((currentState != ConstanceState.PULL_DOWN_FINISH && currentState != ConstanceState.PULL_UP_FINISH)
+        if (showBottom && ((currentState != State.PULL_DOWN_FINISH && currentState != State.PULL_UP_FINISH)
                 || getScrollY() != 0)) {
             mHandler.sendEmptyMessageDelayed(MSG_NO_MORE, 5);
             return;
@@ -237,18 +228,14 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
         if (mFooterView != null) mFooterView.setVisibility(showBottom ? GONE : VISIBLE);
     }
 
-    /**
-     * 刷新动画的时长
-     * @param duration 时长 毫秒
-     */
+    public void setViewHeight(int height) {
+        this.childHeaderHeight = height;
+    }
+
     public void setRefreshAnimationDuration(int duration) {
         ANIMATION_EXTEND_DURATION = duration;
     }
 
-    /**
-     * 是否允许视图滑动
-     * @param enable true 可以滑动
-     */
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
@@ -286,10 +273,10 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (mTarget == null) { // 就是这个自定义ViewGroup刷新加载控件，内部加载的滑动控件（非滑动控件也可以的)） 内部控件为空就去寻找
+        if (mTarget == null) {
             ensureTarget();
         }
-        if (mTarget == null) return; // 寻找不到内部控件，就停止测量方法
+        if (mTarget == null) return;
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             if (child == mHeaderView) {
@@ -324,14 +311,11 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
         }
     }
 
-    /**
-     * 判断这个控件是否加载的滑动控件 （RecyclerView、ListView、ScrollerView）
-     */
     private void ensureTarget() {
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             if (child != mHeaderView && child != mFooterView && child != mBottomView) {
-                mTarget = child; // 就是这个自定义ViewGroup刷新加载控件，内部加载的滑动控件（非滑动控件也可以的)）
+                mTarget = child;
                 break;
             }
         }
@@ -391,14 +375,14 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
         return true;
     }
 
-    /**
-     *
-     * @param disallowIntercept
-     */
     @Override
     public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        // if this is a List < L or another view that doesn't support nested
+        // scrolling, ignore this request so that the vertical scroll event
+        // isn't stolen
         if ((Build.VERSION.SDK_INT < 21 && mTarget instanceof AbsListView)
                 || (mTarget != null && !ViewCompat.isNestedScrollingEnabled(mTarget))) {
+            // Nope.
         } else {
             super.requestDisallowInterceptTouchEvent(disallowIntercept);
         }
@@ -442,8 +426,8 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
      * 下拉中或下拉抬起手指，并且在下拉刷新，无效
      */
     private boolean isRefreshingOrLoading() {
-        return (direction != SCROLL_UP && currentState >= ConstanceState.PULL_UP_RELEASE && currentState < ConstanceState.PULL_UP_FINISH)
-                || (direction != SCROLL_DOWN && currentState >= ConstanceState.PULL_DOWN_RELEASE && currentState < ConstanceState.PULL_DOWN_FINISH);
+        return (direction != SCROLL_UP && currentState >= State.PULL_UP_RELEASE && currentState < State.PULL_UP_FINISH)
+                || (direction != SCROLL_DOWN && currentState >= State.PULL_DOWN_RELEASE && currentState < State.PULL_DOWN_FINISH);
     }
 
     private void doScroll(int dy) {
@@ -458,8 +442,8 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
                 if (mFooterView != null) mFooterView.setVisibility(GONE);
                 if (getScrollY() < 0) { //下拉过程中的上拉，无效上拉
                     if (Math.abs(getScrollY()) < effectivePullDownRange) {
-                        if (currentState != ConstanceState.PULL_DOWN)
-                            updateStatus(ConstanceState.PULL_DOWN);
+                        if (currentState != State.PULL_DOWN)
+                            updateStatus(State.PULL_DOWN);
                     }
                 } else {
                     if (!pullUpEnable) return;
@@ -468,7 +452,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
                         bHeight = mBottomView.getMeasuredHeight();
                     if (Math.abs(getScrollY()) >= bHeight) return;
                     dy /= computeInterpolationFactor(getScrollY());
-                    updateStatus(ConstanceState.BOTTOM);
+                    updateStatus(State.BOTTOM);
                 }
             } else {
                 //显示加载布局
@@ -477,18 +461,18 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
                 if (mFooterView != null) mFooterView.setVisibility(VISIBLE);
                 if (getScrollY() < 0) { //下拉过程中的上拉，无效上拉
                     if (Math.abs(getScrollY()) < effectivePullDownRange) {
-                        if (currentState != ConstanceState.PULL_DOWN)
-                            updateStatus(ConstanceState.PULL_DOWN);
+                        if (currentState != State.PULL_DOWN)
+                            updateStatus(State.PULL_DOWN);
                     }
                 } else {
                     if (!pullUpEnable) return;
                     if (Math.abs(getScrollY()) >= effectivePullUpRange) {
                         dy /= computeInterpolationFactor(getScrollY());
-                        if (currentState != ConstanceState.PULL_UP_RELEASABLE)
-                            updateStatus(ConstanceState.PULL_UP_RELEASABLE);
+                        if (currentState != State.PULL_UP_RELEASABLE)
+                            updateStatus(State.PULL_UP_RELEASABLE);
                     } else {
-                        if (currentState != ConstanceState.PULL_UP)
-                            updateStatus(ConstanceState.PULL_UP);
+                        if (currentState != State.PULL_UP)
+                            updateStatus(State.PULL_UP);
                     }
                 }
             }
@@ -496,19 +480,19 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
             //下拉刷新
             if (getScrollY() > 0) {   //说明不是到达顶部的下拉，无效下拉
                 if (Math.abs(getScrollY()) < effectivePullUpRange) {
-                    if (currentState != ConstanceState.PULL_UP)
-                        updateStatus(ConstanceState.PULL_UP);
+                    if (currentState != State.PULL_UP)
+                        updateStatus(State.PULL_UP);
                 }
             } else {
                 if (!pullDownEnable) return;
                 if (Math.abs(getScrollY()) >= effectivePullDownRange) {
                     //到达下拉最大距离，增加阻尼因子
                     dy /= computeInterpolationFactor(getScrollY());
-                    if (currentState != ConstanceState.PULL_DOWN_RELEASABLE)
-                        updateStatus(ConstanceState.PULL_DOWN_RELEASABLE);
+                    if (currentState != State.PULL_DOWN_RELEASABLE)
+                        updateStatus(State.PULL_DOWN_RELEASABLE);
                 } else {
-                    if (currentState != ConstanceState.PULL_DOWN)
-                        updateStatus(ConstanceState.PULL_DOWN);
+                    if (currentState != State.PULL_DOWN)
+                        updateStatus(State.PULL_DOWN);
                 }
             }
         }
@@ -521,7 +505,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
 
         if (showBottom && getScrollY() > 0) {
             //显示无更多布局
-            updateStatus(ConstanceState.BOTTOM);
+            updateStatus(State.BOTTOM);
             if (Math.abs(getScrollY()) != 0) {
                 mScroller.startScroll(0, getScrollY(), 0, -getScrollY());
                 mScroller.extendDuration(ANIMATION_EXTEND_DURATION);
@@ -531,19 +515,19 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
             if (isRefreshingOrLoading()) return;
             if ((Math.abs(getScrollY()) >= effectivePullDownRange) && getScrollY() < 0) {
                 //有效下拉
-                updateStatus(ConstanceState.PULL_DOWN_RELEASE);
+                updateStatus(State.PULL_DOWN_RELEASE);
                 mScroller.startScroll(0, getScrollY(), 0, -(getScrollY() + effectivePullDownRange));
                 mScroller.extendDuration(ANIMATION_EXTEND_DURATION);
                 invalidate();
             } else if ((Math.abs(getScrollY()) >= effectivePullUpRange) && getScrollY() > 0) {
                 //有效上拉
-                updateStatus(ConstanceState.PULL_UP_RELEASE);
+                updateStatus(State.PULL_UP_RELEASE);
                 mScroller.startScroll(0, getScrollY(), 0, -(getScrollY() - effectivePullUpRange));
                 mScroller.extendDuration(ANIMATION_EXTEND_DURATION);
                 invalidate();
             } else {
                 //无效距离，还原
-                updateStatus(ConstanceState.PULL_NORMAL);
+                updateStatus(State.PULL_NORMAL);
             }
         }
     }
@@ -556,29 +540,29 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
             invalidate();
         } else {
             isLastScrollComplete = true;
-            if (currentState == ConstanceState.PULL_DOWN_RESET)
-                currentState = ConstanceState.PULL_DOWN_FINISH;
-            if (currentState == ConstanceState.PULL_UP_RESET)
-                currentState = ConstanceState.PULL_UP_FINISH;
+            if (currentState == State.PULL_DOWN_RESET)
+                currentState = State.PULL_DOWN_FINISH;
+            if (currentState == State.PULL_UP_RESET)
+                currentState = State.PULL_UP_FINISH;
         }
     }
 
     private void updateStatus(int state) {
         switch (state) {
-            case ConstanceState.PULL_NORMAL:
+            case State.PULL_NORMAL:
                 pullDownReset();
                 break;
-            case ConstanceState.PULL_DOWN:
+            case State.PULL_DOWN:
                 if (mHeaderWrapper != null) {
                     mHeaderWrapper.pullDown();
                 }
                 break;
-            case ConstanceState.PULL_DOWN_RELEASABLE:
+            case State.PULL_DOWN_RELEASABLE:
                 if (mHeaderWrapper != null) {
                     mHeaderWrapper.pullDownReleasable();
                 }
                 break;
-            case ConstanceState.PULL_DOWN_RELEASE:
+            case State.PULL_DOWN_RELEASE:
                 if (mHeaderWrapper != null) {
                     mHeaderWrapper.pullDownRelease();
                 }
@@ -588,23 +572,23 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
                 showNoMore(false);
                 setEnable(false);
                 break;
-            case ConstanceState.PULL_DOWN_RESET:
+            case State.PULL_DOWN_RESET:
                 pullDownReset();
                 break;
-            case ConstanceState.PULL_UP_RESET:
+            case State.PULL_UP_RESET:
                 pullUpReset();
                 break;
-            case ConstanceState.PULL_UP:
+            case State.PULL_UP:
                 if (mFooterWrapper != null) {
                     mFooterWrapper.pullUp();
                 }
                 break;
-            case ConstanceState.PULL_UP_RELEASABLE:
+            case State.PULL_UP_RELEASABLE:
                 if (mFooterWrapper != null) {
                     mFooterWrapper.pullUpReleasable();
                 }
                 break;
-            case ConstanceState.PULL_UP_RELEASE:
+            case State.PULL_UP_RELEASE:
                 if (mFooterWrapper != null) {
                     mFooterWrapper.pullUpRelease();
                 }
@@ -613,12 +597,12 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
                 }
                 setEnable(false);
                 break;
-            case ConstanceState.PULL_UP_FINISH:
+            case State.PULL_UP_FINISH:
                 if (mFooterWrapper != null) {
                     mFooterWrapper.pullUpFinish();
                 }
                 break;
-            case ConstanceState.BOTTOM:
+            case State.BOTTOM:
                 if (mBottomWrapper != null) {
                     mBottomWrapper.showBottom();
                 }
@@ -675,7 +659,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
                         onLoadMoreComplete();
                     break;
                 case MSG_NO_MORE:
-                    if (getScrollY() == 0 && (currentState == ConstanceState.PULL_DOWN_FINISH || currentState == ConstanceState.PULL_UP_FINISH))
+                    if (getScrollY() == 0 && (currentState == State.PULL_DOWN_FINISH || currentState == State.PULL_UP_FINISH))
                         showNoMore(showBottom);
                     else
                         mHandler.sendEmptyMessageDelayed(MSG_NO_MORE, 5);
@@ -712,7 +696,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
             mHandler.sendEmptyMessageDelayed(MSG_DOWN_RESET, 5);
             return;
         }
-        updateStatus(ConstanceState.PULL_DOWN_RESET);
+        updateStatus(State.PULL_DOWN_RESET);
     }
 
     public void onLoadMoreComplete() {
@@ -720,7 +704,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
             mHandler.sendEmptyMessageDelayed(MSG_UP_RESET, 5);
             return;
         }
-        updateStatus(ConstanceState.PULL_UP_RESET);
+        updateStatus(State.PULL_UP_RESET);
     }
 
     @Override
@@ -730,11 +714,11 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
     }
 
     public interface CanChildScrollUp {
-        boolean canChildScrollUp(RefreshLayout parent, View child);
+        boolean canChildScrollUp(RefreshLoadLayout parent, View child);
     }
 
     public interface CanChildScrollDown {
-        boolean canChildScrollDown(RefreshLayout parent, View child);
+        boolean canChildScrollDown(RefreshLoadLayout parent, View child);
     }
 
     public interface OnRefreshListener {
@@ -755,6 +739,10 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
         this.pullUpEnable = pullUpEnable;
     }
 
+    /**
+     * 是否允许视图滑动
+     * @param enable true 允许视图滑动
+     */
     public void setScrollEnable(boolean enable) {
         this.enable = enable;
     }
@@ -889,5 +877,23 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
     @Override
     public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
         return mNestedScrollingChildHelper.dispatchNestedFling(velocityX, velocityY, consumed);
+    }
+
+    //-------------------------------- 状态 --------------------------------//
+
+    private interface State {
+
+        int PULL_NORMAL          = 0;  //普通状态
+        int PULL_DOWN            = 1;  //下拉中
+        int PULL_DOWN_RELEASABLE = 2;  //下拉可刷新
+        int PULL_DOWN_RELEASE    = 3;  //下拉正在刷新
+        int PULL_DOWN_RESET      = 4;  //下拉恢复正常
+        int PULL_DOWN_FINISH     = 5;  //下拉完成
+        int PULL_UP              = 6;  //上拉中
+        int PULL_UP_RELEASABLE   = 7;  //上拉可刷新
+        int PULL_UP_RELEASE      = 8;  //上拉正在刷新
+        int PULL_UP_RESET        = 9;  //上拉恢复正常
+        int PULL_UP_FINISH       = 10; //上拉完成
+        int BOTTOM               = 11; //无更多
     }
 }

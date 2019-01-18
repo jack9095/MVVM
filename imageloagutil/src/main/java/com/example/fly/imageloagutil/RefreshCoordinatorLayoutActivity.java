@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.fly.imageloagutil.widgets.BottomView;
 import com.example.fly.imageloagutil.widgets.LoadView;
 import com.example.fly.imageloagutil.widgets.RefreshView;
-import com.example.refreshlayout.RefreshLayout;
+import com.example.refreshlayout.RefreshLoadLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
 public class RefreshCoordinatorLayoutActivity extends AppCompatActivity {
     private static final String TAG = "CoordinatorLayoutActivi";
     private CoordinatorLayout   mCoordinatorLayout;
-    private RefreshLayout mRefreshLayout;
+    private RefreshLoadLayout mRefreshLoadLayout;
     private RecyclerView        mRecyclerView;
 //    private RecyclerAdapter     mRecyclerAdapter;
     private AppBarLayout        mAppBarLayout;
@@ -34,18 +34,18 @@ public class RefreshCoordinatorLayoutActivity extends AppCompatActivity {
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
 
 //        mRefreshLayout = (RefreshLayout) findViewById(R.id._refresh);
-        if (mRefreshLayout != null) {
-            mRefreshLayout.setHeaderView(new RefreshView(this));
-            mRefreshLayout.setFooterView(new LoadView(this));
-            mRefreshLayout.setBottomView(new BottomView(this));
-            mRefreshLayout.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
+        if (mRefreshLoadLayout != null) {
+            mRefreshLoadLayout.setHeaderView(new RefreshView(this));
+            mRefreshLoadLayout.setFooterView(new LoadView(this));
+            mRefreshLoadLayout.setBottomView(new BottomView(this));
+            mRefreshLoadLayout.setOnRefreshListener(new RefreshLoadLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
                     addRefreshData();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            mRefreshLayout.onRefreshComplete();
+                            mRefreshLoadLayout.onRefreshComplete();
 //                            mRecyclerAdapter.notifyDataSetChanged();
                         }
                     }, 1000);
@@ -57,7 +57,7 @@ public class RefreshCoordinatorLayoutActivity extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            mRefreshLayout.onLoadMoreComplete();
+                            mRefreshLoadLayout.onLoadMoreComplete();
 //                            mRecyclerAdapter.notifyDataSetChanged();
 //                            if (mRecyclerAdapter.getItemCount() >= 30) mRefreshLayout.showNoMore(true);
                         }

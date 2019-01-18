@@ -34,7 +34,7 @@
 
         <!-- app:layout_behavior="@string/appbar_scrolling_view_behavior" -->
 
-        <com.example.refreshlayout.RefreshLayout
+        <com.example.refreshlayout.RefreshLoadLayout
             android:id="@+id/simple_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,7 +44,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        </com.example.refreshlayout.RefreshLayout>
+        </com.example.refreshlayout.RefreshLoadLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -8,11 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import com.example.fly.imageloagutil.widgets.BottomView;
 import com.example.fly.imageloagutil.widgets.LoadView;
 import com.example.fly.imageloagutil.widgets.RefreshView;
-import com.example.refreshlayout.RefreshLayout;
+import com.example.refreshlayout.RefreshLoadLayout;
 
 public class SplashActivity extends AppCompatActivity {
 
-    RefreshLayout mRefreshLayout;
+    RefreshLoadLayout mRefreshLoadLayout;
     RecyclerView mRecyclerView;
     TestAdapter mTestAdapter;
 
@@ -20,46 +20,45 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        mRefreshLayout = findViewById(R.id.refresh_layout);
+        mRefreshLoadLayout = findViewById(R.id.refresh_layout);
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTestAdapter = new TestAdapter();
         mRecyclerView.setAdapter(mTestAdapter);
 
-        mRefreshLayout.setPullUpEnable(true);   // 开启上拉加载
-        mRefreshLayout.setPullDownEnable(true); // 开启下拉刷新
-        mRefreshLayout.setScrollEnable(true);
+        mRefreshLoadLayout.setPullUpEnable(true);   // 开启上拉加载
+        mRefreshLoadLayout.setPullDownEnable(true); // 开启下拉刷新
+        mRefreshLoadLayout.setScrollEnable(false);
 
-        mRefreshLayout.setHeaderView(new RefreshView(this));
-        mRefreshLayout.setFooterView(new LoadView(this));
-        mRefreshLayout.setBottomView(new BottomView(this));
+        mRefreshLoadLayout.setHeaderView(new RefreshView(this));
+        mRefreshLoadLayout.setFooterView(new LoadView(this));
+        mRefreshLoadLayout.setBottomView(new BottomView(this));
 
-        mRefreshLayout.setOnRefreshListener(new RefreshLayout.OnRefreshListener() {
+        mRefreshLoadLayout.setOnRefreshListener(new RefreshLoadLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                mRefreshLayout.postDelayed(new Runnable() {
+                mRefreshLoadLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mTestAdapter.notifyDataSetChanged();
                         //下拉刷新完成
-                        mRefreshLayout.onRefreshComplete();
+                        mRefreshLoadLayout.onRefreshComplete();
                     }
                 }, 1000);
             }
 
             @Override
             public void onLoadMore() {
-                mRefreshLayout.postDelayed(new Runnable() {
+                mRefreshLoadLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         //上拉加载完成
                         mTestAdapter.notifyDataSetChanged();
-                        mRefreshLayout.onLoadMoreComplete();
-                        mRefreshLayout.onLoadMoreComplete();
+                        mRefreshLoadLayout.onLoadMoreComplete();
 
 //                if (mData.size() >= 18) {
-                        mRefreshLayout.showNoMore(true);
+                        mRefreshLoadLayout.showNoMore(true);
 //                }
                     }
                 }, 1000);
