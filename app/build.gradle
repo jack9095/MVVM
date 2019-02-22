@@ -44,6 +44,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
+    // 显示帧 FPS 的安卓库
     debugCompile "com.github.brianPlummer:tinydancer:0.1.2"
     releaseCompile "com.github.brianPlummer:tinydancer-noop:0.1.2"
     testCompile "com.github.brianPlummer:tinydancer-noop:0.1.2"

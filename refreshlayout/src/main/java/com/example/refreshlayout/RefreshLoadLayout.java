@@ -36,10 +36,10 @@ public class RefreshLoadLayout extends ViewGroup implements NestedScrollingParen
     private static final int    MSG_DOWN_RESET                  = 101;
     private static final int    MSG_UP_RESET                    = 102;
     private static final int    MSG_NO_MORE                     = 103;
-    private static final int    SCROLL_NONE                     = -1; //无滚动
-    private static final int    SCROLL_UP                       = 0;  //下拉(currY>lastY)
-    private static final int    SCROLL_DOWN                     = 1;  //上拉(currY<lastY)
-    private static final float  DECELERATE_INTERPOLATION_FACTOR = 2F; //滑动阻尼因子
+    private static final int    SCROLL_NONE                     = -1; // 无滚动
+    private static final int    SCROLL_UP                       = 0;  // 下拉(currY>lastY)
+    private static final int    SCROLL_DOWN                     = 1;  // 上拉(currY<leffectivePullUpRangeastY)
+    private static final float  DECELERATE_INTERPOLATION_FACTOR = 2F; // 滑动阻尼因子
     private static       int    ANIMATION_EXTEND_DURATION       = 200;
     private              int    childHeaderHeight               = 150;
     private              int    childFooterHeight               = 150;
@@ -69,7 +69,7 @@ public class RefreshLoadLayout extends ViewGroup implements NestedScrollingParen
     private int effectivePullUpRange;
     private int ignorePullRange;
 
-    private IHeaderWrapper mHeaderWrapper;
+    private IHeaderRefreshView mHeaderWrapper;
     private IFooterWrapper mFooterWrapper;
     private IBottomWrapper mBottomWrapper;
 
@@ -114,14 +114,14 @@ public class RefreshLoadLayout extends ViewGroup implements NestedScrollingParen
     }
 
     //设置刷新布局
-    public void setHeaderView(IHeaderWrapper header) {
+    public void setHeaderView(IHeaderRefreshView header) {
         if (header == null) return;
         this.mHeaderWrapper = header;
         this.mHeaderView = header.getHeaderView();
         addView(mHeaderView);
     }
 
-    public void setHeaderView(IHeaderWrapper header, int height) {
+    public void setHeaderView(IHeaderRefreshView header, int height) {
         if (header == null) return;
         this.mHeaderWrapper = header;
         this.mHeaderView = header.getHeaderView();
@@ -204,7 +204,7 @@ public class RefreshLoadLayout extends ViewGroup implements NestedScrollingParen
         return mBottomWrapper;
     }
 
-    public IHeaderWrapper getHeaderView() {
+    public IHeaderRefreshView getHeaderView() {
         return mHeaderWrapper;
     }
 

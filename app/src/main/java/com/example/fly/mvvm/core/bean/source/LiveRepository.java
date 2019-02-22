@@ -7,6 +7,8 @@ import com.example.fly.mvvm.core.bean.pojo.live.LiveTypeVo;
 import com.example.fly.mvvm.network.rx.RxSubscriber;
 import com.example.fly.mvvm_library.http.rx.RxSchedulers;
 
+import rx.Observable;
+
 /**
  *
  */
@@ -32,6 +34,7 @@ public class LiveRepository extends BaseRepository {
 
 
     public void loadLiveRemList(String id, String rn, final CallBack<LiveListVo> onResultCallBack) {
+//        Observable<LiveListVo> liveRem = apiService.getLiveRem(id, rn);
         addSubscribe(apiService.getLiveRem(id, rn)
                 .compose(RxSchedulers.io_main())
                 .subscribe(new RxSubscriber<LiveListVo>() {

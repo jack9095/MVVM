@@ -3,7 +3,7 @@ package com.example.refreshlayout;
 import android.view.View;
 
 
-public interface IHeaderWrapper {
+public interface IHeaderRefreshView {
 
     /**
      * 获取刷新布局

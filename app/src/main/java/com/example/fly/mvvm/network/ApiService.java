@@ -46,7 +46,7 @@ public interface ApiService {
     Observable<WorksListVo> getWorkData(@Field("corrected") String corrected, @Field("rn") String rn);
 
     @POST(URL.WORK_MORE_LIST)
-    @FormUrlEncoded
+    @FormUrlEncoded // TODO
     Observable<WorksListVo> getWorkMoreData(@Field("last_id") String last_id, @Field("utime") String utime, @Field("rn") String rn);
 
     @POST(URL.WORK_DETAIL)
